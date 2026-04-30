@@ -1,0 +1,89 @@
+.tmq-wrapper {
+  background: #f8f9fb;
+  overflow: hidden;
+}
+
+.tmq-title {
+  font-weight: 700;
+}
+
+.tmq-subtitle {
+  color: #6c757d;
+}
+
+.tmq-marquee {
+  overflow: hidden;
+  position: relative;
+  margin: 15px 0;
+}
+
+.tmq-track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  animation: tmq-scroll 25s linear infinite;
+}
+
+/* Reverse direction */
+.tmq-reverse .tmq-track {
+  animation: tmq-scroll-reverse 25s linear infinite;
+}
+
+/* ✅ Pause animation when hovering THAT row */
+.tmq-marquee:hover .tmq-track {
+  animation-play-state: paused;
+}
+
+/* Optional: pause whole section (uncomment if needed) */
+/*
+.tmq-wrapper:hover .tmq-track {
+  animation-play-state: paused;
+}
+*/
+
+@keyframes tmq-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes tmq-scroll-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.tmq-card {
+  min-width: 280px;
+  border-radius: 12px;
+  border: none;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 10px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.tmq-card:hover {
+  transform: scale(1.05);
+}
+
+.tmq-icon {
+  color: #1bc612;
+}
+
+.tmq-text {
+  font-size: 14px;
+}
+
+.tmq-name {
+  font-weight: 600;
+  font-size: 12px;
+  color: #555;
+}

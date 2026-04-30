@@ -1,0 +1,176 @@
+/* Swiper Navigation Custom Styling - MagicBricks Red Theme */
+
+.swiper-button-next,
+.swiper-button-prev {
+  width: 30px !important;
+  height: 30px !important;
+  background-color: #fff;
+  color: #000 !important;
+  border-radius: 50%;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  padding: 8px;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #fff;
+  transform: scale(1.1);
+}
+
+.swiper-button-prev {
+  left: 15px;
+}
+
+.swiper-button-next {
+  right: 15px;
+}
+
+/* Optional: hide buttons on mobile to save space */
+@media (max-width: 768px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 25px;
+    height: 25px;
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 14px;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    background-color: #fff;
+  }
+}
+
+/* Pagination (dots) */
+.swiper-pagination-bullet {
+  background: #ccc;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  background: #e43f3f;
+  width: 12px;
+  height: 12px;
+}
+
+/* Optional shadow on top of images for better nav contrast */
+.swiper-slide {
+  position: relative;
+  overflow: hidden;
+}
+
+.swiper-slide img {
+  border-radius: 12px;
+  transition: transform 0.5s ease;
+}
+
+.swiper-slide:hover img {
+  transform: scale(1.05);
+}
+
+.side-st-top{
+  top: 40px;
+}
+
+/* mapicon */
+/* .custom-leaflet-icon {
+  background: none !important;
+  border: none !important;
+}
+
+.custom-marker {
+  transform: translate(-50%, -100%);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+  animation: bounce 1.5s infinite ease-in-out;
+}
+
+.st-progress {
+    width: 100% !important;
+    height: 5px !important;
+    margin-top: 5px;
+}
+
+.prehomehero{
+  background-size: cover;
+  background-position: center;
+  padding: 70px 0px;
+}
+
+.wd-serproin{
+  width: 768px !important;
+  padding: 15px !important;
+  border-radius: 8px;
+}
+.locstdrop{
+   width: 520px;
+   box-shadow: 0 6px 18px rgba(0,0,0,0.15) ;
+   padding: 12px !important;
+} */
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translate(-50%, -100%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -100%) translateY(-6px);
+  }
+}
+
+
+.profile-logo-st {
+    width: 80px inherit;
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    background-color: #fff;
+    padding:4px;
+    bottom: 15px;
+    left: 20px;
+    border-radius: 100px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
+
+}
+
+.profile-logo-st img{
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+
+
+/* stt new css */
+.st-tab-abt {
+    padding: 15px !important;
+}
+.st-tab-abt.active.bg-primary.st-bg{
+ background-color: var(--secondary-color) !important;
+ padding: 15px !important;
+}
+/* mobile css */
+@media only screen and (max-width: 600px) {
+  /* .premst-img{
+     height: 250px !important;
+  }
+  .wd-serproin{
+    width: 100% !important;
+  }
+  .st-wdt{
+   width: 90% !important;
+  }
+  .locstdrop{
+   width: 300px;
+   left: -100px !important;
+   box-shadow: 0 6px 18px rgba(0,0,0,0.15) ;
+   } */
+}
