@@ -18,11 +18,11 @@ const menuData = [
         title: " Counsellings",
         items: [
           { label: "NEET UG", path: "/neet-ug" },
-          { label: "NEET PG", path: "/" },
-          { label: "NEET MDS", path: "" },
-          { label: "INICET", path: "/" },
-          { label: "DNB PDCET", path: "/" },
-          { label: "NEET SS", path: "/" },
+          { label: "NEET PG", path: "/neet-pg" },
+          { label: "NEET MDS", path: "/neet-mds" },
+          { label: "INICET", path: "/inicet" },
+          { label: "DNB PDCET", path: "/dnb-pdcet" },
+          { label: "NEET SS", path: "/neet-ss" },
         ],
       },
 
@@ -77,7 +77,7 @@ const menuData = [
 
   {
     name: "Package",
-    path: "/",
+    path: "/package",
   },
   {
     name: "Blog",

@@ -26,6 +26,7 @@ import NeetImgVertical from "../../assets/images/neetug-m2.jpg";
 import CounsellingFeature from "@/components/counsellings/CounsellingFeature";
 import CounsellingOverview from "@/components/counsellings/CounsellingOverview";
 import CounsellingVideo from "@/components/counsellings/CounsellingVideo";
+import CounsellingCta from "@/components/counsellings/CounsellingCta";
 
 
 const features = [
@@ -69,35 +70,32 @@ const videos = [
     {
         title: "Karnataka Closing Rank Analysis | NEET MDS",
         img: Thumbnail,
-        videoId: "ysz5S6PUM-U",
+        videoId: "JoTBsrnrPsc",
         tag: "Karnataka Counselling",
         date: "1 year ago",
     },
     {
         title: "Delhi State Rank Strategy | NEET MDS",
         img: Thumbnail,
-        videoId: "tgbNymZ7vqY",
+        videoId: "JoTBsrnrPsc",
         tag: "Delhi Counselling",
         date: "10 months ago",
     },
     {
         title: "Tamil Nadu Counselling Guide",
         img: Thumbnail,
-        videoId: "ScMzIvxBSi4",
+        videoId: "JoTBsrnrPsc",
         tag: "Tamil Nadu",
         date: "8 months ago",
     },
     {
         title: "All India Quota Strategy",
         img: Thumbnail,
-        videoId: "dQw4w9WgXcQ",
+        videoId: "JoTBsrnrPsc",
         tag: "AIQ Counselling",
         date: "6 months ago",
     },
 ];
-
-
-
 
 export default function NeetUg() {
     return (
@@ -117,11 +115,26 @@ export default function NeetUg() {
                 features={features}
             />
             <CounsellingOverview
-                title="NEET MDS 2025 Overview"
-                subtitle="Everything you need to understand before starting your counselling journey"
+                title="NEET MDS 2025 – Complete Counselling Overview"
+                subtitle="Understand eligibility, process, and strategies to secure your MDS seat with confidence"
                 sections={sections}
                 bgClass="bg-warning bg-opacity-10"
             />
+
+            <CounsellingCta
+                title="Ready to secure your"
+                highlight="medical seat?"
+                subtitle="Join thousands of aspirants who are already using smart tools and expert guidance to crack NEET counselling."
+                primaryBtn="Start Counselling"
+                secondaryBtn="View Tools"
+                points={[
+                    "AI-based college prediction",
+                    "Real-time cutoff & seat data",
+                    "Expert counselling strategies",
+                    "State-wise & AIQ coverage",
+                ]}
+            />
+
             <CounsellingVideo
                 title="Learn Counselling Through Videos"
                 subtitle="Watch expert breakdowns, strategies, and real counselling insights"

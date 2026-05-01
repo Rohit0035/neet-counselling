@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col, Card, CardBody } from "reactstrap";
 
 const CounsellingOverview = ({
   title,
@@ -10,46 +10,68 @@ const CounsellingOverview = ({
   bgClass = "bg-light",
 }) => {
   return (
-    <section className={`${bgClass}`}>
+    <section className={`${bgClass} py-5`}>
       <Container>
 
-        {(title || subtitle) && (
-          <div className="text-center mb-5" data-aos="zoom-in">
-            {title && <h2 className="fw-bold">{title}</h2>}
-            {subtitle && (
-              <p className="text-muted mb-0">{subtitle}</p>
-            )}
-          </div>
-        )}
+        {/* HEADER */}
+        <Row className="justify-content-center text-center mb-5">
+          <Col lg="8" data-aos="zoom-in">
+            <h2 className="fw-bold mb-3">{title}</h2>
+            <p className="text-muted">{subtitle}</p>
+          </Col>
+        </Row>
 
-        {sections.map((item, index) => (
-          <Row
-            key={index}
-            className="align-items-start mb-5"
-            data-aos="zoom-in"
-          >
-            <Col md="5" className="d-flex align-items-start">
-              <div className="me-3">{item.icon}</div>
-              <h5 className="fw-semibold mb-0">{item.title}</h5>
+        {/* GRID CARDS */}
+        <Row className="g-4">
+          {sections.map((item, index) => (
+            <Col md="6" lg="4" key={index} data-aos="zoom-in">
+
+              <Card
+                className="h-100 border-0 shadow-sm rounded-4"
+                style={{ minHeight: "260px" }}
+              >
+                <CardBody className="d-flex flex-column">
+
+                  {/* ICON */}
+                  <div
+                    className="d-flex align-items-center justify-content-center mb-3"
+                    style={{
+                      width: "60px",
+                      height: "60px",
+                      borderRadius: "50%",
+                      background: "rgba(13,110,253,0.1)",
+                    }}
+                  >
+                    {item.icon}
+                  </div>
+
+                  {/* TITLE */}
+                  <h5 className="fw-bold mb-2">{item.title}</h5>
+
+                  {/* CONTENT */}
+                  {item.content && (
+                    <p className="text-muted small mb-2">
+                      {item.content}
+                    </p>
+                  )}
+
+                  {/* LIST */}
+                  {item.list && (
+                    <ul className="text-muted small ps-3 mt-auto">
+                      {item.list.map((li, i) => (
+                        <li key={i} className="mb-1">
+                          {li}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                </CardBody>
+              </Card>
+
             </Col>
-
-            <Col md="7">
-              {item.content && (
-                <p className="text-muted mb-0">{item.content}</p>
-              )}
-
-              {item.list && (
-                <ul className="text-muted ps-3 mb-0">
-                  {item.list.map((li, i) => (
-                    <li key={i} className="mb-1">
-                      {li}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </Col>
-          </Row>
-        ))}
+          ))}
+        </Row>
 
       </Container>
     </section>

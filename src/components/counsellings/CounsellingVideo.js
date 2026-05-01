@@ -89,7 +89,7 @@ const CounsellingVideo = ({
                   </h6>
 
                   {video.tag && (
-                    <span className="badge bg-warning text-dark mt-2">
+                    <span className="badge bg-info text-white mt-2">
                       {video.tag}
                     </span>
                   )}

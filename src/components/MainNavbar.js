@@ -25,8 +25,10 @@ import {
 import { FiPhoneCall } from "react-icons/fi";
 
 import "../assets/styles/navbar.css";
+import Logolight from "../assets/images/logo-dark.png"
 
-import menuData from "./menuData"; // ✅ Import dynamic menu data
+
+import menuData from "./menuData"; 
 // import CityPopup from "./CityPopup";SSS
 import Image from "next/image";
 // import logo from "../assets/images/logo.png"
@@ -69,8 +71,7 @@ export default function MainNavbar() {
             {/* === Mobile Toggle === */}
             <div className="d-flex align-items-center w-100">
               <NavbarBrand href="/" className="fw-bold text-white fs-3 d-lg-none">
-                {/* <Image src={logo} alt="smartmind" className="st-logo" /> */}
-                <h4 className="text-dark fw-bold">LOGO</h4>
+                <Image src={Logolight} alt="smartmind" className="st-logo" />
               </NavbarBrand>
               {/* <span className="d-lg-none" style={{ marginTop: '0px' }}>
                 <a href="#" onClick={toggleModal} className="text-st ms-2 me-3" >
@@ -108,8 +109,7 @@ export default function MainNavbar() {
             {/* === Desktop Menu === */}
             <Collapse isOpen={true} navbar className="d-none d-lg-flex">
               <NavbarBrand href="/" className="fw-bold text-white fs-3">
-                {/* <Image src={logo} alt="smartmind" className="st-logo" /> */}
-                  <h4 className="text-dark fw-bold mt-2">LOGO</h4>
+                <Image src={Logolight} alt="smartmind" className="st-logo" />
               </NavbarBrand>
               {/* <span className="" style={{ marginTop: '0px' }}>
                 <a href="#" onClick={toggleModal} className="text-st ms-2" >
@@ -209,7 +209,7 @@ export default function MainNavbar() {
             </>
           ) : (
             <>
-              <h5 className="mb-0 fw-bold">Logo</h5>
+              <h5 className="mb-0 fw-bold">Menu</h5>
               <FaTimes onClick={toggleSidebar} className="fs-5 cursor-pointer" />
             </>
           )}

@@ -1,5 +1,7 @@
 "use client";
 import Link from "next/link";
+import Logodark from "../assets/images/logo-dark.jpg"
+import Image from "next/image";
 
 const Footer = () => {
   return (
@@ -13,7 +15,7 @@ const Footer = () => {
 
             {/* LOGO + TEXT */}
             <div className="d-flex align-items-center mb-3">
-              <h4 className="fw-bold mb-0">LOGO</h4>
+              <Image src={Logodark} alt="logo-white" className="st-logo rounded"/>
             </div>
 
             <p className="text-white">
@@ -70,7 +72,7 @@ const Footer = () => {
         <hr className="my-4 border-light opacity-25" />
 
         <div className="text-center small text-light opacity-75">
-          © 2026 Private Limited
+          © 2026 Iknowledge Education Pvt. Ltd.
         </div>
 
       </div>
