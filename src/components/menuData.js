@@ -85,19 +85,19 @@ const menuData = [
   },
   {
     name: "Notice",
-    path: "/",
+    path: "/notices",
   },
   {
     name: "Gallery",
-    path: "/",
+    path: "/gallery",
   },
   {
     name: "Review",
-    path: "/",
+    path: "/testimonials",
   },
   {
     name: "Contact Us",
-    path: "/",
+    path: "/contact-us",
   },
 ];
 
