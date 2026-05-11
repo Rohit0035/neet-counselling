@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 
 export default function ClientLayout({ children }) {
   const pathname = usePathname();
-  const hideLayout = pathname === "/signin" || pathname === "/signup" || pathname === "/forgotpassword";
+  const hideLayout = pathname === "/auth/login" || pathname === "/auth/register" || pathname === "/auth/forgot";
 
   return (
     <>

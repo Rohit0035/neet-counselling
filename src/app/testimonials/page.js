@@ -9,7 +9,7 @@ import React, { useEffect } from "react";
 
 
 
-const Testimonials = () => {
+const TestimonialPage = () => {
 
     return (
         <>
@@ -21,4 +21,4 @@ const Testimonials = () => {
     );
 };
 
-export default Testimonials;
+export default TestimonialPage;

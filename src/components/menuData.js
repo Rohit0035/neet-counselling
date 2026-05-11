@@ -81,7 +81,7 @@ const menuData = [
   },
   {
     name: "Blog",
-    path: "/",
+    path: "/blog",
   },
   {
     name: "Notice",
