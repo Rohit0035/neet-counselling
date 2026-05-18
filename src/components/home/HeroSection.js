@@ -99,9 +99,6 @@ const HeroSection = () => {
 
                         </div>
                     </Col>
-                     <Col xs="12" md="12" lg="12" className="mt-3" data-aos="zoom-in">
-                        <Image src={Heroimg1}  alt="hero-img" className="w-100 rounded-5"  />
-                     </Col>
                 </Row>
             </Container>
         </section>

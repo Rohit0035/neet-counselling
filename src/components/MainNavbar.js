@@ -173,12 +173,12 @@ export default function MainNavbar() {
                     Login
                   </DropdownToggle>
                   <DropdownMenu className="border-0 shadow-sm" style={{ zIndex: '9999 !important', position: 'absolute !important' }}>
-                    <DropdownItem tag={Link} href="/signup">
-                      Sign Up
+                    <DropdownItem tag={Link} href="/auth/login">
+                     Login 
                     </DropdownItem>
 
-                    <DropdownItem tag={Link} href="/signin">
-                      Sign In
+                    <DropdownItem tag={Link} href="/auth/register">
+                      Register
                     </DropdownItem>
                   </DropdownMenu>
 

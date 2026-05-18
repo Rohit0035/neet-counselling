@@ -1,10 +1,12 @@
 "use client";
 
 import ChaosSection from "@/components/home/ChaosSection";
+import CollegeList from "@/components/home/CollegeList";
 import PremiumCounsellingUI from "@/components/home/CounsellingSection";
 import CtaSection from "@/components/home/CtaSection";
 import FaqSection from "@/components/home/FaqSection";
 import HeroSection from "@/components/home/HeroSection";
+import HomeSlider from "@/components/home/HomeSlider";
 import PricingCards from "@/components/home/PricingCards";
 import SupportSection from "@/components/home/SupportSection";
 import TestimonialSlider from "@/components/home/TestimonialSlider";
@@ -15,7 +17,11 @@ export default function HomeIndex() {
     <>
       <HeroSection />
 
+      <HomeSlider/>
+
       <ChaosSection />
+
+      <CollegeList/>
 
       <PremiumCounsellingUI />
 
