@@ -46,6 +46,22 @@ export default function AdminSidebar() {
               Blog Comments
             </Link>
           </li>
+          <li className="nav-item mb-2">
+            <Link
+              href="/admin/notice-categories"
+              className="nav-link text-white"
+            >
+              Notice Categories
+            </Link>
+          </li>
+          <li className="nav-item mb-2">
+            <Link
+              href="/admin/notices"
+              className="nav-link text-white"
+            >
+              Notices
+            </Link>
+          </li>
         </ul>
       </div>
 

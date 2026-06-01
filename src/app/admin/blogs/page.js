@@ -1,5 +1,5 @@
 "use client";
-import BlogsTable from "@/components/admin/BlogsTable";
+import BlogsTable from "@/components/admin/Blog/BlogsTable";
 import { useState } from "react";
 
 export default function BlogsPage() {

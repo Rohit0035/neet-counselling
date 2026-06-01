@@ -1,4 +1,4 @@
-import BlogCommentsTable from "@/components/admin/BlogCommentsTable";
+import BlogCommentsTable from "@/components/admin/Blog/BlogCommentsTable";
 
 export default function BlogCommentsPage() {
   return (

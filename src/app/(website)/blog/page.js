@@ -21,6 +21,7 @@ import {
 
 import AOS from "aos";
 import Link from "next/link";
+import { format } from "date-fns";
 
 // const categories = [
 //     "All",
@@ -210,7 +211,7 @@ const Blog = () => {
 
                                         <div className="d-flex align-items-center gap-2 text-secondary small mb-3">
                                             <FaCalendarAlt />
-                                            {blog.date}
+                                            {format(new Date(blog.createdAt.slice(0, 10)), "dd MMMM yyyy")}
                                         </div>
 
                                         <h4 className="fw-bold mb-3 ">

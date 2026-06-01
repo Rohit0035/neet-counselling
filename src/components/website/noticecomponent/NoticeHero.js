@@ -23,8 +23,9 @@ import {
     FaUniversity,
     FaCheckCircle,
 } from "react-icons/fa";
+import { formatDistanceToNow } from "date-fns";
 
-const NoticeHero = () => {
+const NoticeHero = ({categories = [],notices = []}) => {
 
     return (
         <section
@@ -326,23 +327,7 @@ const NoticeHero = () => {
                                 </div>
 
                                 {/* NOTICE ITEMS */}
-                                {[
-                                    {
-                                        title:
-                                            "NEET UG Registration Started",
-                                        time: "2 Hours Ago",
-                                    },
-                                    {
-                                        title:
-                                            "Round 1 Choice Filling Open",
-                                        time: "Today",
-                                    },
-                                    {
-                                        title:
-                                            "AIQ Seat Allotment Released",
-                                        time: "Yesterday",
-                                    },
-                                ].map((item, index) => (
+                                {notices.map((item, index) => (
 
                                     <div
                                         key={index}
@@ -394,7 +379,9 @@ const NoticeHero = () => {
                                                     whiteSpace: "nowrap",
                                                 }}
                                             >
-                                                {item.time}
+                                                {formatDistanceToNow(new Date(item.createdAt), {
+                                                                            addSuffix: true,
+                                                                          })}
                                             </small>
 
                                         </div>

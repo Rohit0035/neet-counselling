@@ -26,6 +26,7 @@ import Image from "next/image";
 import BlogCommentForm from "@/components/website/blogsection/BlogCommentForm";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import { format } from "date-fns";
 
 
 const relatedBlogs = [
@@ -154,7 +155,7 @@ const BlogDetail = () => {
 
                                 <div className="d-flex align-items-center gap-2">
                                     <FaClock />
-                                    <span>{blog?.createdAt?.split("T")[0]}</span>
+                                    <span>{blog?.createdAt ? format(new Date(blog?.createdAt?.slice(0, 10)), "dd MMMM yyyy") : ""}</span>
                                 </div>
 
                             </div>

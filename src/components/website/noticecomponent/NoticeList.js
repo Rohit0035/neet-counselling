@@ -32,6 +32,7 @@ import {
     FaUniversity,
     FaGraduationCap,
 } from "react-icons/fa";
+import { format } from "date-fns";
 
 const noticeTabs = [
     "All Notices",
@@ -84,15 +85,15 @@ const noticeData = [
     },
 ];
 
-const NoticeList = () => {
+const NoticeList = ({categories = [],notices = []}) => {
 
     const [activeTab, setActiveTab] = useState("All Notices");
 
     const filteredData =
         activeTab === "All Notices"
-            ? noticeData
-            : noticeData.filter(
-                (item) => item.type === activeTab
+            ? notices
+            : notices.filter(
+                (item) => item.category?.name === activeTab
             );
 
     return (
@@ -163,11 +164,11 @@ const NoticeList = () => {
                             data-aos="fade-up"
                         >
 
-                            {noticeTabs.map((tab, index) => (
+                            {categories.map((tab, index) => (
 
                                 <Button
                                     key={index}
-                                    onClick={() => setActiveTab(tab)}
+                                    onClick={() => setActiveTab(tab.name)}
                                     className={classnames(
                                         "border-0 fw-semibold text-white"
                                     )}
@@ -176,26 +177,26 @@ const NoticeList = () => {
                                         padding:
                                             "14px 26px",
                                         background:
-                                            activeTab === tab
+                                            activeTab === tab.name
                                                 ? "linear-gradient(135deg,#2563eb,#4f46e5)"
                                                 : "#fff",
                                         color:
-                                            activeTab === tab
+                                            activeTab === tab.name
                                                 ? "#fff"
                                                 : "#071028",
                                         boxShadow:
-                                            activeTab === tab
+                                            activeTab === tab.name
                                                 ? "0 15px 35px rgba(37,99,235,0.25)"
                                                 : "0 8px 20px rgba(0,0,0,0.05)",
                                         border:
-                                            activeTab === tab
+                                            activeTab === tab.name
                                                 ? "none"
                                                 : "1px solid #eef2ff",
                                         transition:
                                             "all .3s ease",
                                     }}
                                 >
-                                    {tab}
+                                    {tab.name}
                                 </Button>
 
                             ))}
@@ -347,6 +348,7 @@ const NoticeList = () => {
                                                                         "22px",
                                                                 }}
                                                             >
+                                                                <FaBell />
                                                                 {item.icon}
                                                             </div>
 
@@ -377,7 +379,10 @@ const NoticeList = () => {
                                                                             "450px",
                                                                     }}
                                                                 >
-                                                                    {item.desc}
+                                                                    {item.description.slice(
+                                                                        0,
+                                                                        100
+                                                                    ).trim().concat("...")}
                                                                 </p>
 
                                                             </div>
@@ -393,7 +398,7 @@ const NoticeList = () => {
                                                             pill
                                                             className="px-3 py-2 bg-success bg-opacity-10 text-success"
                                                         >
-                                                            {item.type}
+                                                            {item.category?.name}
                                                         </Badge>
 
                                                     </td>
@@ -418,7 +423,7 @@ const NoticeList = () => {
                                                                         "14px",
                                                                 }}
                                                             >
-                                                                {item.date}
+                                                                {format(new Date(item.createdAt.slice(0, 10)), "dd MMMM yyyy")}
                                                             </span>
 
                                                         </div>
@@ -430,10 +435,10 @@ const NoticeList = () => {
 
                                                         <Badge
                                                             pill
-                                                            className="px-3 py-2 bg-danger bg-opacity-10 text-danger"
+                                                            className={`px-3 py-2 ${item.status ? "bg-success  text-success" : "bg-danger  text-danger"} bg-opacity-10`}
                                                            
                                                         >
-                                                            {item.status}
+                                                            {item.status ? "Active" : "Inactive"}
                                                         </Badge>
 
                                                     </td>

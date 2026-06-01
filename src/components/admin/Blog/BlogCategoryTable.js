@@ -116,8 +116,8 @@ export default function BlogCategoryTable({
       sortable: true,
     },
     {
-      name: "Slug",
-      selector: (row) => row.slug,
+      name: "Description",
+      selector: (row) => row.description,
     },
     {
       name: "Status",
