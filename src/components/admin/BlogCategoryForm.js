@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string(),
-  status: z.boolean(),
+  status: z.string(),
 });
 
 export default function BlogCategoryForm({

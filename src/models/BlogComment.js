@@ -12,9 +12,13 @@ const BlogCommentSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
 
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     comment: {
       type: String,
       required: true,
@@ -29,7 +33,7 @@ const BlogCommentSchema = new mongoose.Schema(
 
     isApproved: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   {

@@ -21,6 +21,9 @@ import {
   FaClock,
   FaUserCircle,
 } from "react-icons/fa";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { formatDistanceToNow } from "date-fns";
 
 const defaultComments = [
   {
@@ -56,37 +59,46 @@ const defaultComments = [
   },
 ];
 
-const BlogCommentForm = () => {
+const BlogCommentForm = ({comments = [], slug,fetchBlogComments}) => {
   const [showForm, setShowForm] = useState(false);
 
-  const [comments, setComments] =
-    useState(defaultComments);
+  // const [comments, setComments] =
+  //   useState(defaultComments);
 
   const [formData, setFormData] = useState({
     name: "",
-    message: "",
+    comment: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.message) return;
-
-    const newComment = {
-      id: Date.now(),
-      name: formData.name,
-      date: new Date().toLocaleDateString(),
-      message: formData.message,
+    if (!formData.name || !formData.comment) {
+      toast.error(
+        "Please fill all the fields"
+      );
+      return;
     };
 
-    setComments([newComment, ...comments]);
+    try {
+        await axios.post(
+          `/api/website/blogs/${slug}/comments`,
+          formData
+        );
+        toast.success(
+          "Comment posted successfully"
+        );
+        fetchBlogComments();
+      setShowForm(false);
 
-    setFormData({
-      name: "",
-      message: "",
-    });
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        error?.response?.data?.message ||
+        "Something went wrong"
+      );
+    }
 
-    setShowForm(false);
   };
 
   return (
@@ -146,11 +158,15 @@ const BlogCommentForm = () => {
 
                       <div className="d-flex align-items-center gap-2 text-secondary small">
                         <FaClock />
-                        <span>{comment.date}</span>
+                        <span>
+                          {formatDistanceToNow(new Date(comment.createdAt), {
+                            addSuffix: true,
+                          })}
+                        </span>
                       </div>
                     </div>
                     <p className="text-secondary mb-0 small">
-                      {comment.message}
+                      {comment.comment}
                     </p>
                   </div>
                 </div>
@@ -206,11 +222,11 @@ const BlogCommentForm = () => {
                     type="textarea"
                     rows="5"
                     placeholder="Write your comment..."
-                    value={formData.message}
+                    value={formData.comment}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        message: e.target.value,
+                        comment: e.target.value,
                       })
                     }
                     className="rounded-4 border-0 shadow-sm"

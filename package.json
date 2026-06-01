@@ -15,6 +15,7 @@
     "axios": "^1.16.1",
     "bcryptjs": "^3.0.3",
     "bootstrap": "^5.3.8",
+    "date-fns": "^4.4.0",
     "leaflet": "^1.9.4",
     "mongodb": "^7.2.0",
     "mongoose": "^9.6.2",
@@ -39,6 +40,7 @@
     "reactstrap": "^9.2.3",
     "recharts": "^3.3.0",
     "sass": "^1.93.2",
+    "sweetalert2": "^11.26.25",
     "swiper": "^12.0.3",
     "yet-another-react-lightbox": "^3.25.0",
     "zod": "^4.4.3"

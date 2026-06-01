@@ -89,3 +89,24 @@ export async function PUT(req, { params }) {
     );
   }
 }
+
+export async function DELETE(req, { params }) {
+  try {
+    await connectDB();
+
+    const { id } = await params;
+
+    const deletedBlog = await Blog.delete({ _id: id });
+
+    return NextResponse.json({
+      success: true,
+      data: deletedBlog,
+      message: "Blog deleted successfully",
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { message: error.message },
+      { status: 500 }
+    );
+  }
+}

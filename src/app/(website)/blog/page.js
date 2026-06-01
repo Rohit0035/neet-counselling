@@ -20,14 +20,15 @@ import {
 } from "react-icons/fa";
 
 import AOS from "aos";
+import Link from "next/link";
 
-const categories = [
-    "All",
-    "NEET UG",
-    "NEET PG",
-    "INI CET",
-    "DNB PDCET",
-];
+// const categories = [
+//     "All",
+//     "NEET UG",
+//     "NEET PG",
+//     "INI CET",
+//     "DNB PDCET",
+// ];
 
 const blogs = [
     {
@@ -72,16 +73,36 @@ const blogs = [
 ];
 
 const Blog = () => {
+    const [categories, setCategories] = useState([]);
+    const [blogs, setBlogs] = useState([]);
     const [activeCategory, setActiveCategory] =
         useState("All");
 
     const [search, setSearch] = useState("");
 
+    const fetchCategories = async () => {
+        const res = await fetch("/api/website/blog-categories");
+        const data = await res.json();
+
+        setCategories([{ name: "All" }, ...data]);
+    };
+
+    const fetchBlogs = async () => {
+        const res = await fetch("/api/website/blogs");
+        const data = await res.json();
+
+        setBlogs(data);
+    };
+
+    useEffect(() => {
+        fetchCategories();
+        fetchBlogs();
+    }, []);
 
     const filteredBlogs = blogs.filter((blog) => {
         const categoryMatch =
             activeCategory === "All" ||
-            blog.category === activeCategory;
+            blog.category?.name.toLowerCase() === activeCategory.toLowerCase();
 
         const searchMatch =
             blog.title
@@ -100,7 +121,7 @@ const Blog = () => {
                         data-aos="fade-up"
                     >
                         <h2 className="fw-bold fs-1 text-white">
-                             Blogs
+                            Blogs
                         </h2>
 
                         <p className="text-secondary mt-3 text-white">
@@ -138,26 +159,26 @@ const Blog = () => {
                             <Button
                                 key={index}
                                 color={
-                                    activeCategory === item
+                                    activeCategory === item.name
                                         ? "info"
                                         : "light"
                                 }
                                 className="rounded-pill px-4 py-2  small fw-semibold border-0 shadow-sm"
                                 onClick={() =>
-                                    setActiveCategory(item)
+                                    setActiveCategory(item.name)
                                 }
                             >
-                                {item}
+                                {item.name}
                             </Button>
                         ))}
                     </div>
                     <Row>
-                        {filteredBlogs.map((blog) => (
+                        {filteredBlogs.map((blog, index) => (
                             <Col
                                 lg="4"
                                 md="6"
                                 className="mb-4"
-                                key={blog.id}
+                                key={blog._id}
                             >
                                 <Card
                                     className="border-0 shadow rounded-5 h-100 overflow-hidden"
@@ -180,7 +201,7 @@ const Blog = () => {
                                             pill
                                             className="position-absolute top-0 start-0 m-3 px-3 py-2"
                                         >
-                                            {blog.category}
+                                            {blog.category?.name}
                                         </Badge>
                                     </div>
 
@@ -196,18 +217,25 @@ const Blog = () => {
                                             {blog.title}
                                         </h4>
 
-                                        <p className="text-secondary flex-grow-1">
-                                            {blog.desc}
-                                        </p>
+                                        <div className="text-secondary flex-grow-1">
+                                            <div
+                                                dangerouslySetInnerHTML={{
+                                                    __html:
+                                                        blog.description.length > 100
+                                                            ? blog.description.slice(0, 100) + "..."
+                                                            : blog.description,
+                                                }}
+                                            />
+                                        </div>
 
-                                        <Button
+                                        <Link
                                             color="dark"
-                                            href="/blog-detail"
-                                            className="rounded-pill px-4 py-2 mt-3 d-flex align-items-center gap-2 st-bg "
+                                            href={`/blog/${blog.slug}`}
+                                            className="rounded-pill px-4 py-2 mt-3 d-flex align-items-center gap-2 st-bg text-white"
                                         >
                                             Read More
                                             <FaArrowRight />
-                                        </Button>
+                                        </Link>
 
                                     </CardBody>
                                 </Card>

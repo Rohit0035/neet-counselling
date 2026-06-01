@@ -5,6 +5,7 @@ import DataTable from "react-data-table-component";
 import BlogCategoryForm from "./BlogCategoryForm";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 export default function BlogCategoryTable({
   show,
@@ -45,18 +46,25 @@ export default function BlogCategoryTable({
   };
 
   const toggleStatus = async (id, status) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: `You want to ${status ? "deactivate" : "activate"
+        } this category?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, change it!",
+    });
+
+    if (!result.isConfirmed) return;
+
     try {
-      const payload = { status: !status };
+      await axios.put(`/api/blog-categories/${id}`, {
+        status: !status,
+      });
 
-      await axios.put(
-        `/api/blog-categories/${id}`,
-        payload
-      );
-
-      toast.success(
-        "Category updated successfully"
-      );
-
+      toast.success("Category updated successfully");
       fetchCategories();
     } catch (error) {
       console.log(error);
@@ -67,6 +75,33 @@ export default function BlogCategoryTable({
   const handleEdit = (item) => {
     setEditData(item);
     setShow(true);
+  };
+
+  const handleDelete = async (item) => {
+    const result = await Swal.fire({
+      title: "Delete Category?",
+      text: `You are about to delete "${item.name}". This action cannot be undone.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      await axios.delete(
+        `/api/blog-categories/${item._id}`
+      );
+
+      toast.success("Category deleted successfully");
+
+      fetchCategories();
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
   };
 
   const columns = [
@@ -102,12 +137,20 @@ export default function BlogCategoryTable({
     {
       name: "Action",
       cell: (row) => (
-        <button
-          className="btn btn-warning btn-sm"
-          onClick={() => handleEdit(row)}
-        >
-          Edit
-        </button>
+        <>
+          <button
+            className="btn btn-warning btn-sm me-2"
+            onClick={() => handleEdit(row)}
+          >
+            Edit
+          </button>
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() => handleDelete(row)}
+          >
+            Delete
+          </button>
+        </>
       ),
     },
   ];
