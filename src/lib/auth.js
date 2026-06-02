@@ -16,7 +16,7 @@ export const authOptions = {
             credentials: {
                 email: {},
                 password: {},
-                loginType: {},
+                role: {},
             },
 
             async authorize(credentials) {
@@ -32,7 +32,7 @@ export const authOptions = {
                 }
 
                 // ADMIN LOGIN
-                if (credentials.loginType === "admin") {
+                if (credentials.role === "admin") {
 
                     if (user.role !== "admin") {
                         throw new Error("Admin access only");
@@ -57,7 +57,7 @@ export const authOptions = {
                 }
 
                 // STUDENT LOGIN
-                if (credentials.loginType === "student") {
+                if (credentials.role === "student") {
 
                     if (user.role !== "student") {
                         throw new Error("Student access only");

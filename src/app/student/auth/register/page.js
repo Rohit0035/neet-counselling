@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Container,
@@ -13,9 +13,12 @@ import {
   Form,
   FormGroup,
   Label,
+  InputGroup,
 } from "reactstrap";
 
-import { FaUserPlus } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaUserPlus } from "react-icons/fa";
+import { FcGoogle } from 'react-icons/fc'
+
 
 import {
   Swiper,
@@ -36,6 +39,9 @@ import Link from "next/link";
 import Logo from "@/assets/images/logo-dark.png";
 import AuthA from "@/assets/images/auth-a.jpg"
 import AuthB from "@/assets/images/auth-b.jpg"
+import axios from "axios";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 const slides = [
   {
     title: "Join Our Medical Platform",
@@ -50,6 +56,93 @@ const slides = [
 ];
 
 const Register = () => {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+
+    if (e.target.name === "terms") {
+      setFormData({
+        ...formData,
+        [e.target.name]: !formData.terms,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value,
+      });
+    }
+
+    // remove error while typing
+    setErrors({
+      ...errors,
+      [e.target.name]: "",
+      general: "",
+    });
+  };
+
+  const validate = () => {
+    let newErrors = {};
+
+    if (!formData.name) {
+      newErrors.name = "Name is required";
+    }
+
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    }
+
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = "Confirm Password is required";
+    }
+
+    if (formData.confirmPassword && formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleRegister = async () => {
+    try {
+      if (!validate()) return;
+      setLoading(true);
+      const payload = {
+        ...formData,
+        role: "student",
+      }
+
+      const res = await axios.post("/api/auth/register", payload);
+
+      if (res.data) {
+        alert("Account Created");
+
+        router.push("/student/auth/login");
+      }
+    } catch (error) {
+      setErrors({ general: error?.response?.data?.error || "Something went wrong" });
+      // alert(error?.response?.data?.error || "Something went wrong");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section
       className="min-vh-100 d-flex align-items-center py-5"
@@ -91,7 +184,7 @@ const Register = () => {
                           width={250}
                           height={250}
                           className="w-100"
-                          // style={{ maxHeight: "230px" }}
+                        // style={{ maxHeight: "230px" }}
                         />
                       </div>
                     </CardBody>
@@ -108,13 +201,19 @@ const Register = () => {
                   <Image
                     src={Logo}
                     alt="logo"
-                    width={100} height={280}
+                    width={300}
+                    // height={100}
                     className="st-logo mx-auto"
                   />
                   <h4 className="text-muted mt-3">
                     Create your account
                   </h4>
                 </div>
+                {errors.general && (
+                  <div className="alert alert-danger mt-3">
+                    {errors.general}
+                  </div>
+                )}
                 <Form>
                   <Row>
                     <Col md="12" lg="12" >
@@ -126,7 +225,13 @@ const Register = () => {
                             height: "58px",
                             borderRadius: "16px",
                           }}
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
                         />
+                        {errors.name && (
+                          <span className="text-danger">{errors.name}</span>
+                        )}
                       </FormGroup>
                     </Col>
                     <Col md="12" lg="12" >
@@ -138,33 +243,62 @@ const Register = () => {
                             height: "58px",
                             borderRadius: "16px",
                           }}
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
                         />
+                        {errors.email && (
+                          <span className="text-danger">{errors.email}</span>
+                        )}
                       </FormGroup>
                     </Col>
                     <Col md="12" lg="12" >
                       <FormGroup className="mb-3">
                         <Label>Password</Label>
-                        <Input
-                          type="password"
-                          placeholder="Create password"
-                          style={{
-                            height: "58px",
-                            borderRadius: "16px",
-                          }}
-                        />
+                        <InputGroup>
+
+                          <Input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Create password"
+                            style={{
+                              height: "58px",
+                              borderRadius: "16px",
+                            }}
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                          />
+                          <Button color="link" onClick={() => setShowPassword(!showPassword)}>
+                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                          </Button>
+                        </InputGroup>
+                        {errors.password && (
+                          <span className="text-danger">{errors.password}</span>
+                        )}
                       </FormGroup>
                     </Col>
                     <Col md="12" lg="12" >
                       <FormGroup className="mb-4">
                         <Label>Confirm Password</Label>
-                        <Input
-                          type="password"
-                          placeholder="Confirm password"
-                          style={{
-                            height: "58px",
-                            borderRadius: "16px",
-                          }}
-                        />
+                        <InputGroup>
+                          <Input
+                            type={showConfirmPassword ? "text" : "password"}
+                            placeholder="Confirm password"
+                            style={{
+                              height: "58px",
+                              borderRadius: "16px",
+                            }}
+                            name="confirmPassword"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                          />
+                          <Button color="link" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                          </Button>
+                        </InputGroup>
+                        {errors.confirmPassword && (
+                          <span className="text-danger">{errors.confirmPassword}</span>
+                        )}
                       </FormGroup>
                     </Col>
                   </Row>
@@ -176,11 +310,25 @@ const Register = () => {
                         borderRadius: "16px",
                         background: "#f97316",
                       }}
+                      onClick={handleRegister}
                     >
                       <FaUserPlus className="me-2" />
                       Create Account
                     </Button>
                   </div>
+                  <div className="my-4 text-center text-muted">
+                    <span>--------- Or ---------</span>
+                  </div>
+
+                  {/* GOOGLE BUTTON */}
+                  <button
+                    onClick={() => signIn("google", {
+                      callbackUrl: "/student/dashboard",
+                    })}
+                    className="btn btn-light w-100"
+                  >
+                    <FcGoogle size={30} /> Continue with Google
+                  </button>
                   <div className="d-flex justify-content-between mt-3">
                     <Link
                       href="/student/auth/login"

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
     Container,
@@ -21,6 +21,10 @@ import {
 } from "react-icons/fa";
 
 import {
+    FcGoogle,
+} from 'react-icons/fc'
+
+import {
     Swiper,
     SwiperSlide,
 } from "swiper/react";
@@ -35,6 +39,8 @@ import Logo from "@/assets/images/logo-dark.png"
 import Link from "next/link";
 import AuthA from "@/assets/images/auth-a.jpg"
 import AuthB from "@/assets/images/auth-b.jpg"
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 
 const slides = [
@@ -51,7 +57,79 @@ const slides = [
 ];
 
 const Login = () => {
+    const [showPassword, setShowPassword] = useState(false);
 
+    const router = useRouter();
+
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
+
+    const [errors, setErrors] = useState({});
+
+    const [loading, setLoading] = useState(false);
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+
+        // remove error while typing
+        setErrors({
+            ...errors,
+            [e.target.name]: "",
+            general: "",
+        });
+    };
+
+    const validate = () => {
+        let newErrors = {};
+
+        if (!formData.email) {
+            newErrors.email = "Email is required";
+        }
+
+        if (!formData.password) {
+            newErrors.password = "Password is required";
+        }
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleLogin = async () => {
+        try {
+            if (!validate()) return;
+
+            setLoading(true);
+
+            const res = await signIn("credentials", {
+                email: formData.email,
+                password: formData.password,
+                redirect: false,
+                role: "student",
+            });
+
+            if (res?.ok) {
+                router.push("/student/dashboard");
+            } else {
+                setErrors({
+                    general: "Invalid email or password",
+                });
+            }
+        } catch (error) {
+            console.log(error);
+
+            setErrors({
+                general: "Something went wrong. Please try again.",
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
     return (
         <section
             className="min-vh-100 d-flex align-items-center py-5"
@@ -97,10 +175,10 @@ const Login = () => {
                                                 <Image
                                                     src={item.img}
                                                     alt="login"
-                                                    className=" w-100"
-                                                    width={100}
-                                                    height={100}
-                                                    // style={{ maxHeight: "230px" }}
+                                                    className="w-100"
+                                                    width={250}
+                                                    height={250}
+                                                // style={{ maxHeight: "230px" }}
                                                 />
                                             </div>
 
@@ -118,19 +196,37 @@ const Login = () => {
                         >
                             <CardBody className="p-5 d-flex flex-column justify-content-center">
                                 <div className="text-center mb-5">
-                                    <Image src={Logo} alt="logo" className="st-logo mx-auto" width={100} height={280} />
+                                    <Image src={Logo}
+                                        alt="logo"
+                                        className="st-logo mx-auto"
+                                        width={300}
+                                    // height={280} 
+                                    />
                                     <h4 className="text-muted">Login in to continue 👋 </h4>
                                 </div>
+                                {errors.general && (
+                                    <div className="alert alert-danger mt-3">
+                                        {errors.general}
+                                    </div>
+                                )}
                                 <Form>
                                     <FormGroup className="mb-4">
-                                        <Label>Phone Number</Label>
+                                        <Label>Email</Label>
                                         <Input
-                                            placeholder="Enter phone number"
+                                            placeholder="Enter your email"
                                             style={{
                                                 height: "58px",
                                                 borderRadius: "16px",
                                             }}
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleChange}
                                         />
+                                        {errors.email && (
+                                            <div className="text-danger">
+                                                {errors.email}
+                                            </div>
+                                        )}
                                     </FormGroup>
                                     <FormGroup className="mb-4">
                                         <Label>Password</Label>
@@ -141,7 +237,15 @@ const Login = () => {
                                                 height: "58px",
                                                 borderRadius: "16px",
                                             }}
+                                            name="password"
+                                            value={formData.password}
+                                            onChange={handleChange}
                                         />
+                                        {errors.password && (
+                                            <div className="text-danger">
+                                                {errors.password}
+                                            </div>
+                                        )}
                                     </FormGroup>
                                     <div className="d-grid gap-3">
                                         <Button
@@ -151,11 +255,28 @@ const Login = () => {
                                                 borderRadius: "16px",
                                                 background: "#f97316",
                                             }}
+                                            onClick={handleLogin}
+                                            disabled={loading}
                                         >
                                             <FaLock className="me-2" />
-                                           Login
+                                            Login
                                         </Button>
                                     </div>
+                                    <div className="my-4 text-center text-muted">
+                                        <span>--------- Or ---------</span>
+                                    </div>
+
+                                    {/* GOOGLE BUTTON */}
+                                    <button
+                                        type="button"
+                                        onClick={() => signIn("google", {
+                                            callbackUrl: "/student/dashboard",
+                                        })}
+                                        className="btn btn-light w-100"
+                                    >
+                                        <FcGoogle size={30} /> Continue with Google
+                                    </button>
+
                                     <div className="d-flex justify-content-between mt-2">
 
                                         <Link
