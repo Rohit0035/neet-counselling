@@ -26,7 +26,7 @@ export default function AdminLoginPage() {
     const res = await signIn("credentials", {
       email: data.email,
       password: data.password,
-      loginType: "admin",
+      role: "admin",
       redirect: false,
     })
 

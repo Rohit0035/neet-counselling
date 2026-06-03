@@ -1,74 +1,66 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const menu = [
+  { name: "Dashboard", link: "/admin/dashboard" },
+  { name: "Blog Categories", link: "/admin/blog-categories" },
+  { name: "Blogs", link: "/admin/blogs" },
+  { name: "Blog Comments", link: "/admin/blog-comments" },
+  { name: "Notice Categories", link: "/admin/notice-categories" },
+  { name: "Notices", link: "/admin/notices" },
+  { name: "Universities", link: "/admin/universities" },
+  { name: "Courses", link: "/admin/courses" },
+  { name: "Institutes", link: "/admin/institutes" },
+  { name: "Plans", link: "/admin/plans" },
+  { name: "Testimonials", link: "/admin/testimonials" },
+  { name: "Students", link: "/admin/students" },
+];
 
 export default function AdminSidebar() {
+  const pathname = usePathname();
+
   return (
     <>
       {/* Desktop Sidebar */}
       <div
         className="bg-dark text-white p-3 d-none d-lg-block"
-        style={{ width: "250px", minHeight: "100vh" }}
+        style={{
+          width: "250px",
+          height: "100vh",
+          overflowY: "auto",
+          position: "sticky",
+          top: 0,
+        }}
       >
         <h3 className="mb-4">Admin Panel</h3>
 
         <ul className="nav flex-column">
-          <li className="nav-item mb-2">
-            <Link
-              href="/admin/dashboard"
-              className="nav-link text-white"
-            >
-              Dashboard
-            </Link>
-          </li>
+          {menu.map((item, index) => {
+            const isActive = pathname === item.link;
 
-          <li className="nav-item mb-2">
-            <Link
-              href="/admin/blog-categories"
-              className="nav-link text-white"
-            >
-              Blog Categories
-            </Link>
-          </li>
-          <li className="nav-item mb-2">
-            <Link
-              href="/admin/blogs"
-              className="nav-link text-white"
-            >
-              Blogs
-            </Link>
-          </li>
-          <li className="nav-item mb-2">
-            <Link
-              href="/admin/blog-comments"
-              className="nav-link text-white"
-            >
-              Blog Comments
-            </Link>
-          </li>
-          <li className="nav-item mb-2">
-            <Link
-              href="/admin/notice-categories"
-              className="nav-link text-white"
-            >
-              Notice Categories
-            </Link>
-          </li>
-          <li className="nav-item mb-2">
-            <Link
-              href="/admin/notices"
-              className="nav-link text-white"
-            >
-              Notices
-            </Link>
-          </li>
+            return (
+              <li className="nav-item mb-2" key={index}>
+                <Link
+                  href={item.link}
+                  className={`nav-link ${isActive
+                      ? "bg-primary text-white rounded"
+                      : "text-white"
+                    }`}
+                >
+                  {item.name}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </div>
 
       {/* Mobile Offcanvas Sidebar */}
       <div
         className="offcanvas offcanvas-start bg-dark text-white"
-        tabIndex="-1"
+        tabIndex={-1}
         id="adminSidebar"
       >
         <div className="offcanvas-header">
@@ -83,39 +75,23 @@ export default function AdminSidebar() {
 
         <div className="offcanvas-body">
           <ul className="nav flex-column">
-            <li className="nav-item mb-2">
-              <Link
-                href="/admin/dashboard"
-                className="nav-link text-white"
-              >
-                Dashboard
-              </Link>
-            </li>
+            {menu.map((item, index) => {
+              const isActive = pathname === item.link;
 
-            <li className="nav-item mb-2">
-            <Link
-              href="/admin/blog-categories"
-              className="nav-link text-white"
-            >
-              Blog Categories
-            </Link>
-          </li>
-          <li className="nav-item mb-2">
-            <Link
-              href="/admin/blogs"
-              className="nav-link text-white"
-            >
-              Blogs
-            </Link>
-          </li>
-          <li className="nav-item mb-2">
-            <Link
-              href="/admin/blog-comments"
-              className="nav-link text-white"
-            >
-              Blog Comments
-            </Link>
-          </li>
+              return (
+                <li className="nav-item mb-2" key={index}>
+                  <Link
+                    href={item.link}
+                    className={`nav-link ${isActive
+                        ? "bg-primary text-white rounded"
+                        : "text-white"
+                      }`}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
