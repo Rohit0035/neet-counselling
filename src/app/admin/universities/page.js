@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import UniversityTable from "@/components/admin/Blog/UniversityTable";
+import UniversityTable from "@/components/admin/University/UniversityTable";
 
 export default function UniversitiesPage() {
   const [editData, setEditData] = useState(null);

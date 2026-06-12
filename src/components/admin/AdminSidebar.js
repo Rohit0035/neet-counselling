@@ -13,9 +13,10 @@ const menu = [
   { name: "Universities", link: "/admin/universities" },
   { name: "Courses", link: "/admin/courses" },
   { name: "Institutes", link: "/admin/institutes" },
-  { name: "Plans", link: "/admin/plans" },
+  { name: "Packages", link: "/admin/packages" },
   { name: "Testimonials", link: "/admin/testimonials" },
   { name: "Students", link: "/admin/students" },
+  { name: "Student Packages", link: "/admin/student-packages" },
 ];
 
 export default function AdminSidebar() {

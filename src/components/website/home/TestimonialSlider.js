@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "reactstrap";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -76,6 +76,19 @@ const TestimonialSlider = () => {
         boxShadow: "0 6px 18px rgba(0,0,0,0.1)"
     };
 
+    const [testimonials, setTestimonials] = useState([]);
+
+    const fetchTestimonials = async () => {
+        const res = await fetch("/api/website/testimonials");
+        const data = await res.json();
+    
+        setTestimonials(data);
+      };
+    
+      useEffect(() => {
+        fetchTestimonials();
+      }, []);
+
     return (
         <section className="bg-warning bg-opacity-10 ">
             <Container>
@@ -131,13 +144,13 @@ const TestimonialSlider = () => {
 
                                         {/* ⭐ STARS */}
                                         <div style={{ display: "flex", gap: "4px", marginBottom: "8px" }}>
-                                            {[...Array(5)].map((_, i) => (
+                                            {[...Array(item.rating)].map((_, i) => (
                                                 <FaStar key={i} color="#ffc107" size={14} />
                                             ))}
                                         </div>
 
                                         <p style={{ fontSize: "13px", color: "#777", textAlign: "center" }}>
-                                            {item.short}
+                                            {item.description}
                                         </p>
                                     </div>
                                     <div
@@ -152,7 +165,7 @@ const TestimonialSlider = () => {
                                         <div style={{ height: "200px", width: "100%", marginTop: "10px" }}>
                                             <PerfectScrollbar>
                                                 <p style={{ fontSize: "14px", textAlign: "center", paddingRight: "10px" }}>
-                                                    {item.full}
+                                                    {item.description}
                                                 </p>
                                             </PerfectScrollbar>
                                         </div>

@@ -13,43 +13,43 @@ export default function CourseTable({
   editData,
   setEditData,
 }) {
-  const [categories, setCategories] = useState([]);
-  const [search, setSearch] = useState("");
-  const [filteredCategories, setFilteredCategories] =
+  const [courses, setCourses] = useState([]);
+  const [filteredCourses, setFilteredCourses] =
     useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetchData();
   }, []);
 
   useEffect(() => {
-    const result = categories.filter((item) => {
+    const result = courses.filter((item) => {
       return (
         item.name
           .toLowerCase()
           .includes(search.toLowerCase()) ||
-        item.slug
+        item.shortName
           .toLowerCase()
           .includes(search.toLowerCase())
       );
     });
 
-    setFilteredCategories(result);
-  }, [search, categories]);
+    setFilteredCourses(result);
+  }, [search, courses]);
 
   const fetchData = async () => {
-    const res = await fetch("/api/blog-categories");
+    const res = await fetch("/api/courses");
     const data = await res.json();
 
-    setCategories(data);
-    setFilteredCategories(data);
+    setCourses(data);
+    setFilteredCourses(data);
   };
 
   const toggleStatus = async (id, status) => {
     const result = await Swal.fire({
       title: "Are you sure?",
       text: `You want to ${status ? "deactivate" : "activate"
-        } this category?`,
+        } this course?`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -60,11 +60,11 @@ export default function CourseTable({
     if (!result.isConfirmed) return;
 
     try {
-      await axios.put(`/api/blog-categories/${id}`, {
+      await axios.put(`/api/courses/${id}`, {
         status: !status,
       });
 
-      toast.success("Category updated successfully");
+      toast.success("Course updated successfully");
       fetchData();
     } catch (error) {
       console.log(error);
@@ -92,10 +92,10 @@ export default function CourseTable({
 
     try {
       await axios.delete(
-        `/api/blog-categories/${item._id}`
+        `/api/courses/${item._id}`
       );
 
-      toast.success("Category deleted successfully");
+      toast.success("Course deleted successfully");
 
       fetchData();
     } catch (error) {
@@ -116,8 +116,8 @@ export default function CourseTable({
       sortable: true,
     },
     {
-      name: "Description",
-      selector: (row) => row.description,
+      name: "Short Name",
+      selector: (row) => row.shortName,
     },
     {
       name: "Status",
@@ -169,7 +169,7 @@ export default function CourseTable({
 
       <DataTable
         columns={columns}
-        data={filteredCategories}
+        data={filteredCourses}
         pagination
         highlightOnHover
         responsive

@@ -13,17 +13,17 @@ export default function InstituteTable({
   editData,
   setEditData,
 }) {
-  const [categories, setCategories] = useState([]);
+  const [institutes, setInstitutes] = useState([]);
+  const [filteredInstitutes, setFilteredInstitutes] =
+  useState([]);
   const [search, setSearch] = useState("");
-  const [filteredCategories, setFilteredCategories] =
-    useState([]);
 
   useEffect(() => {
     fetchData();
   }, []);
 
   useEffect(() => {
-    const result = categories.filter((item) => {
+    const result = institutes.filter((item) => {
       return (
         item.name
           .toLowerCase()
@@ -34,22 +34,22 @@ export default function InstituteTable({
       );
     });
 
-    setFilteredCategories(result);
-  }, [search, categories]);
+    setFilteredInstitutes(result);
+  }, [search, institutes]);
 
   const fetchData = async () => {
-    const res = await fetch("/api/blog-categories");
+    const res = await fetch("/api/institutes");
     const data = await res.json();
 
-    setCategories(data);
-    setFilteredCategories(data);
+    setInstitutes(data);
+    setFilteredInstitutes(data);
   };
 
   const toggleStatus = async (id, status) => {
     const result = await Swal.fire({
       title: "Are you sure?",
       text: `You want to ${status ? "deactivate" : "activate"
-        } this category?`,
+        } this institute?`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -60,11 +60,11 @@ export default function InstituteTable({
     if (!result.isConfirmed) return;
 
     try {
-      await axios.put(`/api/blog-categories/${id}`, {
+      await axios.put(`/api/institutes/status/${id}`, {
         status: !status,
       });
 
-      toast.success("Category updated successfully");
+      toast.success("Institute updated successfully");
       fetchData();
     } catch (error) {
       console.log(error);
@@ -79,7 +79,7 @@ export default function InstituteTable({
 
   const handleDelete = async (item) => {
     const result = await Swal.fire({
-      title: "Delete Category?",
+      title: "Delete Institute?",
       text: `You are about to delete "${item.name}". This action cannot be undone.`,
       icon: "warning",
       showCancelButton: true,
@@ -92,10 +92,10 @@ export default function InstituteTable({
 
     try {
       await axios.delete(
-        `/api/blog-categories/${item._id}`
+        `/api/institutes/${item._id}`
       );
 
-      toast.success("Category deleted successfully");
+      toast.success("Institute deleted successfully");
 
       fetchData();
     } catch (error) {
@@ -116,8 +116,16 @@ export default function InstituteTable({
       sortable: true,
     },
     {
-      name: "Description",
-      selector: (row) => row.description,
+      name: "State",
+      selector: (row) => row.state,
+    },
+    {
+      name: "Institute Type",
+      selector: (row) => row.instituteType,
+    },
+    {
+      name: "University",
+      selector: (row) => row.university?.name,
     },
     {
       name: "Status",
@@ -169,7 +177,7 @@ export default function InstituteTable({
 
       <DataTable
         columns={columns}
-        data={filteredCategories}
+        data={filteredInstitutes}
         pagination
         highlightOnHover
         responsive

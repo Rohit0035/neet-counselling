@@ -14,8 +14,8 @@ import toast from "react-hot-toast";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
-  description: z.string(),
-  status: z.string(),
+  shortName: z.string().min(1, "Short name is required"),
+  status: z.boolean(),
 });
 
 export default function CourseForm({
@@ -35,7 +35,7 @@ export default function CourseForm({
     resolver: zodResolver(schema),
     defaultValues: {
       name: "",
-      description: "",
+      shortName: "",
       status: true,
     },
   });
@@ -43,12 +43,12 @@ export default function CourseForm({
   useEffect(() => {
     if (editData) {
       setValue("name", editData.name);
-      setValue("description", editData.description);
+      setValue("shortName", editData.shortName);
       setValue("status", editData.status);
     } else {
       reset({
         name: "",
-        description: "",
+        shortName: "",
         status: true,
       });
     }
@@ -61,7 +61,7 @@ export default function CourseForm({
 
     reset({
       name: "",
-      description: "",
+      shortName: "",
       status: true,
     });
   };
@@ -75,19 +75,19 @@ export default function CourseForm({
 
       if (editData) {
         await axios.put(
-          `/api/blog-categories/${editData._id}`,
+          `/api/courses/${editData._id}`,
           payload
         );
         toast.success(
-          "Category updated successfully"
+          "Course updated successfully"
         );
       } else {
         await axios.post(
-          "/api/blog-categories",
+          "/api/courses",
           payload
         );
         toast.success(
-          "Category added successfully"
+          "Course added successfully"
         );
       }
 
@@ -112,7 +112,7 @@ export default function CourseForm({
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          {editData ? "Edit Category" : "Add Category"}
+          {editData ? "Edit Course" : "Add Course"}
         </Modal.Title>
       </Modal.Header>
 
@@ -120,7 +120,7 @@ export default function CourseForm({
         <Modal.Body>
 
           <Form.Group className="mb-3">
-            <Form.Label>Category Name</Form.Label>
+            <Form.Label>Course Name</Form.Label>
 
             <Form.Control
               type="text"
@@ -135,17 +135,16 @@ export default function CourseForm({
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Description</Form.Label>
+            <Form.Label>Short Name</Form.Label>
 
             <Form.Control
-              as="textarea"
-              rows={3}
-              {...register("description")}
+              type="text"
+              {...register("shortName")}
             />
 
-            {errors.description && (
+            {errors.shortName && (
               <span className="text-danger">
-                {errors.description.message}
+                {errors.shortName.message}
               </span>
             )}
           </Form.Group>
@@ -154,7 +153,9 @@ export default function CourseForm({
             <Form.Label>Status</Form.Label>
 
             <Form.Select
-              {...register("status")}
+              {...register("status", {
+                setValueAs: (v) => v === "true",
+              })}
             >
               <option value="true">
                 Active
@@ -188,8 +189,8 @@ export default function CourseForm({
             disabled={isSubmitting}
           >
             {editData
-              ? "Update Category"
-              : "Save Category"}
+              ? "Update"
+              : "Save"}
           </Button>
         </Modal.Footer>
       </Form>

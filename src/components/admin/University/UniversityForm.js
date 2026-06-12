@@ -14,8 +14,8 @@ import toast from "react-hot-toast";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
-  description: z.string(),
-  status: z.string(),
+  type: z.string().min(1, "Type is required"),
+  status: z.boolean(),
 });
 
 export default function UniversityForm({
@@ -35,7 +35,7 @@ export default function UniversityForm({
     resolver: zodResolver(schema),
     defaultValues: {
       name: "",
-      description: "",
+      type: "",
       status: true,
     },
   });
@@ -43,12 +43,12 @@ export default function UniversityForm({
   useEffect(() => {
     if (editData) {
       setValue("name", editData.name);
-      setValue("description", editData.description);
+      setValue("type", editData.type);
       setValue("status", editData.status);
     } else {
       reset({
         name: "",
-        description: "",
+        type: "",
         status: true,
       });
     }
@@ -61,7 +61,7 @@ export default function UniversityForm({
 
     reset({
       name: "",
-      description: "",
+      type: "",
       status: true,
     });
   };
@@ -75,19 +75,19 @@ export default function UniversityForm({
 
       if (editData) {
         await axios.put(
-          `/api/blog-categories/${editData._id}`,
+          `/api/universities/${editData._id}`,
           payload
         );
         toast.success(
-          "Category updated successfully"
+          "University updated successfully"
         );
       } else {
         await axios.post(
-          "/api/blog-categories",
+          "/api/universities",
           payload
         );
         toast.success(
-          "Category added successfully"
+          "University added successfully"
         );
       }
 
@@ -112,7 +112,7 @@ export default function UniversityForm({
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          {editData ? "Edit Category" : "Add Category"}
+          {editData ? "Edit University" : "Add University"}
         </Modal.Title>
       </Modal.Header>
 
@@ -120,7 +120,7 @@ export default function UniversityForm({
         <Modal.Body>
 
           <Form.Group className="mb-3">
-            <Form.Label>Category Name</Form.Label>
+            <Form.Label>University Name</Form.Label>
 
             <Form.Control
               type="text"
@@ -135,17 +135,28 @@ export default function UniversityForm({
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Description</Form.Label>
+            <Form.Label>Type</Form.Label>
 
-            <Form.Control
-              as="textarea"
-              rows={3}
-              {...register("description")}
-            />
+            <Form.Select {...register("type")}>
+              <option value="">Select Type</option>
+              <option value="Central University">Central University</option>
+              <option value="State University">State University</option>
+              <option value="Private University">Private University</option>
+              <option value="Deemed University">Deemed University</option>
+              <option value="Open University">Open University</option>
+              <option value="Research University">Research University</option>
+              <option value="Technical University">Technical University</option>
+              <option value="Medical University">Medical University</option>
+              <option value="Agricultural University">Agricultural University</option>
+              <option value="Law University">Law University</option>
+              <option value="Arts University">Arts University</option>
+              <option value="Autonomous University">Autonomous University</option>
+              <option value="Public University">Public University</option>
+            </Form.Select>
 
-            {errors.description && (
+            {errors.type && (
               <span className="text-danger">
-                {errors.description.message}
+                {errors.type.message}
               </span>
             )}
           </Form.Group>
@@ -154,7 +165,9 @@ export default function UniversityForm({
             <Form.Label>Status</Form.Label>
 
             <Form.Select
-              {...register("status")}
+              {...register("status", {
+                setValueAs: (v) => v === "true",
+              })}
             >
               <option value="true">
                 Active
@@ -188,8 +201,8 @@ export default function UniversityForm({
             disabled={isSubmitting}
           >
             {editData
-              ? "Update Category"
-              : "Save Category"}
+              ? "Update"
+              : "Save"}
           </Button>
         </Modal.Footer>
       </Form>

@@ -1,5 +1,5 @@
 "use client";
-import InstituteTable from "@/components/admin/Blog/InstituteTable";
+import InstituteTable from "@/components/admin/Institute/InstituteTable";
 import { useState } from "react";
 
 export default function InstitutesPage() {

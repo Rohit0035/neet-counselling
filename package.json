@@ -24,6 +24,7 @@
     "next-auth": "^4.24.14",
     "nodemailer": "^7.0.13",
     "quill-image-uploader": "^1.3.0",
+    "razorpay": "^2.9.6",
     "react": "19.1.0",
     "react-bootstrap": "^2.10.10",
     "react-data-table-component": "^8.3.0",

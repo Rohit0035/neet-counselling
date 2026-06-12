@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string(),
-  status: z.string(),
+  status: z.boolean(),
 });
 
 export default function NoticeCategoryForm({
@@ -154,7 +154,9 @@ export default function NoticeCategoryForm({
             <Form.Label>Status</Form.Label>
 
             <Form.Select
-              {...register("status")}
+              {...register("status", {
+  setValueAs: (v) => v === "true",
+})}
             >
               <option value="true">
                 Active

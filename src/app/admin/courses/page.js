@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import CourseTable from "@/components/admin/Blog/CourseTable";
+import CourseTable from "@/components/admin/Course/CourseTable";
 
 export default function CoursesPage() {
   const [editData, setEditData] = useState(null);

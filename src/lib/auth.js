@@ -98,43 +98,50 @@ export const authOptions = {
 
         async jwt({ token, user, account }) {
 
-            await connectDB();
+    await connectDB();
 
-            // GOOGLE LOGIN
-            if (account?.provider === "google") {
+    // Credentials login
+    if (user) {
+        token.id = user.id;
+        token.role = user.role;
+    }
 
-                let existingUser =
-                    await User.findOne({
-                        email: token.email,
-                    });
+    // Google login first time
+    if (account?.provider === "google") {
 
-                if (!existingUser) {
+        let existingUser = await User.findOne({
+            email: token.email,
+        });
 
-                    existingUser =
-                        await User.create({
-                            name: token.name,
-                            email: token.email,
-                            image: token.picture,
-                            role: "student",
-                            provider: "google",
-                        });
-                }
+        if (!existingUser) {
+            existingUser = await User.create({
+                name: token.name,
+                email: token.email,
+                image: token.picture,
+                role: "student",
+                provider: "google",
+            });
+        }
 
-                token.id =
-                    existingUser._id.toString();
+        token.id = existingUser._id.toString();
+        token.role = existingUser.role;
+    }
 
-                token.role =
-                    existingUser.role;
-            }
+    // Always ensure role exists
+    if (!token.role && token.email) {
 
-            // CREDENTIAL LOGIN
-            if (user) {
-                token.id = user.id;
-                token.role = user.role;
-            }
+        const dbUser = await User.findOne({
+            email: token.email,
+        });
 
-            return token;
-        },
+        if (dbUser) {
+            token.id = dbUser._id.toString();
+            token.role = dbUser.role;
+        }
+    }
+
+    return token;
+},
 
         async session({ session, token }) {
 

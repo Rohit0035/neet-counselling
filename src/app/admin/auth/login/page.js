@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import toast from "react-hot-toast"
 
 const schema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
@@ -31,9 +32,10 @@ export default function AdminLoginPage() {
     })
 
     if (res?.ok) {
+      toast.success("Logged in successfully")
       router.push("/admin/dashboard")
     } else {
-      alert("Invalid Credentials")
+      toast.error("Invalid email or password")
     }
   }
 

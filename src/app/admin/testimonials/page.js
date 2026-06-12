@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import TestimonialTable from "@/components/admin/Blog/TestimonialTable";
+import TestimonialTable from "@/components/admin/Testimonial/TestimonialTable";
 
 export default function TestimonialsPage() {
   const [editData, setEditData] = useState(null);

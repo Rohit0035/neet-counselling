@@ -25,12 +25,12 @@ const InstituteSchema = new mongoose.Schema(
 
     instituteType: String,
     instituteManagement: String,
-    
+
     university: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "University",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "University",
     },
-    
+
     website: String,
     courses: [
       {
@@ -39,26 +39,28 @@ const InstituteSchema = new mongoose.Schema(
       },
     ],
 
-    logoUrl: String,
-    coverUrl: String,
-
-    imageUrls: [String],
+    logoImage: String,
+    coverImage: String,
+    galleryImages: [String],
 
 
     fee: {
-      min: {type: Number, default: 0},
-      max: {type: Number, default: 0},
+      min: { type: Number, default: 0 },
+      max: { type: Number, default: 0 },
     },
 
     seats: {
-        type: Number,
-        default: 0,
-      },
+      type: Number,
+      default: 0,
+    },
 
     beds: {
+      count:{
         type: Number,
         default: 0,
       },
+      details:String
+    },
 
     establishedYear: {
       type: Number,
@@ -116,33 +118,22 @@ const InstituteSchema = new mongoose.Schema(
       womensHostelAvailability: Boolean,
       details: String,
       feeDetails: String,
-      mess:{
+      mess: {
         veg: Boolean,
         nonVeg: Boolean,
         details: String,
       },
     },
 
-    nmc: [
-        {
-          label: String,
-          url: String,
-        },
-      ],
-
-    social: {
-      twitter: String,
-      facebook: String,
-      instagram: String,
-      linkedin: String,
-      youtube: String,
-
-      youtubeChannels: [
-        {
-          label: String,
-          url: String,
-        },
-      ],
+    marbProforma:
+    {
+      file: String,
+      link: String,
+    },
+    nmcClinicDetails:
+    {
+      file: String,
+      link: String,
     },
 
     mbbsExamResult: {
@@ -154,6 +145,21 @@ const InstituteSchema = new mongoose.Schema(
           url: String,
         },
       ],
+    },
+
+    videos: [
+      {
+        label: String,
+        url: String,
+      },
+    ],
+
+    profiles: {
+      twitter: String,
+      facebook: String,
+      instagram: String,
+      linkedin: String,
+      youtube: String,
     },
 
     infoLinks: [
@@ -178,7 +184,7 @@ InstituteSchema.index({ name: "text" });
 InstituteSchema.index({ state: 1 });
 InstituteSchema.index({ instituteType: 1 });
 InstituteSchema.index({ "fee.min": 1 });
-InstituteSchema.index({ "seats.count": -1 });
+InstituteSchema.index({ seats: -1 });
 
 export default mongoose.models.Institute ||
   mongoose.model("Institute", InstituteSchema);

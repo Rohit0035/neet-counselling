@@ -13,17 +13,17 @@ export default function UniversityTable({
   editData,
   setEditData,
 }) {
-  const [categories, setCategories] = useState([]);
-  const [search, setSearch] = useState("");
-  const [filteredCategories, setFilteredCategories] =
+  const [universities, setUniversities] = useState([]);
+  const [filteredUniversities, setFilteredUniversities] =
     useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetchData();
   }, []);
 
   useEffect(() => {
-    const result = categories.filter((item) => {
+    const result = universities.filter((item) => {
       return (
         item.name
           .toLowerCase()
@@ -34,22 +34,22 @@ export default function UniversityTable({
       );
     });
 
-    setFilteredCategories(result);
-  }, [search, categories]);
+    setFilteredUniversities(result);
+  }, [search, universities]);
 
   const fetchData = async () => {
-    const res = await fetch("/api/blog-categories");
+    const res = await fetch("/api/universities");
     const data = await res.json();
 
-    setCategories(data);
-    setFilteredCategories(data);
+    setUniversities(data);
+    setFilteredUniversities(data);
   };
 
   const toggleStatus = async (id, status) => {
     const result = await Swal.fire({
       title: "Are you sure?",
       text: `You want to ${status ? "deactivate" : "activate"
-        } this category?`,
+        } this university?`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -60,11 +60,11 @@ export default function UniversityTable({
     if (!result.isConfirmed) return;
 
     try {
-      await axios.put(`/api/blog-categories/${id}`, {
+      await axios.put(`/api/universities/${id}`, {
         status: !status,
       });
 
-      toast.success("Category updated successfully");
+      toast.success("University updated successfully");
       fetchData();
     } catch (error) {
       console.log(error);
@@ -92,10 +92,10 @@ export default function UniversityTable({
 
     try {
       await axios.delete(
-        `/api/blog-categories/${item._id}`
+        `/api/universities/${item._id}`
       );
 
-      toast.success("Category deleted successfully");
+      toast.success("University deleted successfully");
 
       fetchData();
     } catch (error) {
@@ -116,8 +116,9 @@ export default function UniversityTable({
       sortable: true,
     },
     {
-      name: "Description",
-      selector: (row) => row.description,
+      name: "Type",
+      selector: (row) => row.type,
+      sortable: true,
     },
     {
       name: "Status",
@@ -169,13 +170,13 @@ export default function UniversityTable({
 
       <DataTable
         columns={columns}
-        data={filteredCategories}
+        data={filteredUniversities}
         pagination
         highlightOnHover
         responsive
       />
 
-      <BlogCategoryForm
+      <UniversityForm
         show={show}
         setShow={setShow}
         fetchData={fetchData}

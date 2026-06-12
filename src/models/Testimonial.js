@@ -9,6 +9,10 @@ const TestimonialSchema = new mongoose.Schema(
       type: Number,
       default: 0,},
     description: String,
+    status: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
     Container,
@@ -140,11 +140,23 @@ const CollegeList = () => {
 
     const [activeCategory, setActiveCategory] =
         useState("All");
+    const [institutes, setInstitutes] = useState([]);
 
-    const filteredColleges = colleges.filter((item) => {
+    const fetchInstitutes = async () => {
+        const res = await fetch("/api/website/institutes");
+        const data = await res.json();
+
+        setInstitutes(data);
+    };
+
+    useEffect(() => {
+        fetchInstitutes();
+    }, []);
+
+    const filteredColleges = institutes.filter((item) => {
         return (
             activeCategory === "All" ||
-            item.city === activeCategory
+            item.location.city === activeCategory
         );
     });
 
@@ -257,11 +269,11 @@ const CollegeList = () => {
                     </div>
 
                     <Row className="g-4">
-                        {filteredColleges.map((college) => (
+                        {filteredColleges.map((college, index) => (
                             <Col
                                 lg="4"
                                 md="6"
-                                key={college.id}
+                                key={index}
                             >
                                 <Card
                                     className="border-0 h-100 overflow-hidden"
@@ -278,7 +290,7 @@ const CollegeList = () => {
                                     <div className="position-relative overflow-hidden">
 
                                         <Image
-                                            src={college.image}
+                                            src={college.logoImage}
                                             alt={college.name}
                                             className="w-100"
                                             height="100"
@@ -298,7 +310,7 @@ const CollegeList = () => {
                                                 fontSize: "13px",
                                             }}
                                         >
-                                            {college.city}
+                                            {college.location.city}
                                         </Badge>
                                         <div
                                             className="position-absolute top-0 end-0 m-3 d-flex align-items-center gap-2 px-3 py-2"
@@ -340,13 +352,18 @@ const CollegeList = () => {
                                             >
                                                 <FaUniversity />
                                             </div>
-                                            <Badge
-                                                pill
-                                                className="px-3 py-2 border-0 bg-info"
-                                               
-                                            >
-                                                MBBS
-                                            </Badge>
+                                            {college.courses.map((course, index) => (
+                                                <Badge
+                                                    key={index}
+                                                    pill
+                                                    className="px-3 py-2 border-0 bg-info"
+
+                                                >
+                                                    {course.shortName}
+                                                </Badge>
+                                            ))
+                                            }
+                                           
                                         </div>
                                         <h4
                                             className="fw-bold mb-0"
@@ -366,15 +383,15 @@ const CollegeList = () => {
                                                     "#64748b",
                                                 lineHeight:
                                                     "1.9",
-                                               
+
                                             }}
                                         >
                                             {college.type}
                                         </p>
-                                         <p
+                                        <p
                                             className="mb-2 small"
                                         >
-                                            {college.desc}
+                                            {college.about}
                                         </p>
                                         <div className="d-flex align-items-center gap-2 mb-4">
                                             <FaMapMarkerAlt
@@ -391,7 +408,7 @@ const CollegeList = () => {
                                                         "14px",
                                                 }}
                                             >
-                                                {college.location}
+                                                {college.location.address}, {college.location.city}
                                             </span>
                                         </div>
 
@@ -403,7 +420,7 @@ const CollegeList = () => {
                                                 View Details
                                                 <FaArrowRight className="ms-2" />
                                             </Button>
-                                         
+
                                         </div>
                                     </CardBody>
                                 </Card>

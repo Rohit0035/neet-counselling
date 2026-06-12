@@ -18,7 +18,7 @@ const schema = z.object({
   category: z.string().min(1, "Category is required"),
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
-  status: z.string(),
+  status: z.boolean(),
 });
 
 export default function NoticeCategoryForm({
@@ -191,7 +191,9 @@ export default function NoticeCategoryForm({
           <Form.Group className="mb-3">
             <Form.Label>Status</Form.Label>
 
-            <Form.Select {...register("status")}>
+            <Form.Select {...register("status", {
+  setValueAs: (v) => v === "true",
+})}>
               <option value="true">
                 Active
               </option>

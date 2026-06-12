@@ -13,17 +13,17 @@ export default function TestimonialTable({
   editData,
   setEditData,
 }) {
-  const [categories, setCategories] = useState([]);
+  const [testimonials, setTestimonials] = useState([]);
+  const [filteredTestimonials, setFilteredTestimonials] =
+  useState([]);
   const [search, setSearch] = useState("");
-  const [filteredCategories, setFilteredCategories] =
-    useState([]);
 
   useEffect(() => {
     fetchData();
   }, []);
 
   useEffect(() => {
-    const result = categories.filter((item) => {
+    const result = testimonials.filter((item) => {
       return (
         item.name
           .toLowerCase()
@@ -34,22 +34,22 @@ export default function TestimonialTable({
       );
     });
 
-    setFilteredCategories(result);
-  }, [search, categories]);
+    setFilteredTestimonials(result);
+  }, [search, testimonials]);
 
   const fetchData = async () => {
-    const res = await fetch("/api/blog-categories");
+    const res = await fetch("/api/testimonials");
     const data = await res.json();
 
-    setCategories(data);
-    setFilteredCategories(data);
+    setTestimonials(data);
+    setFilteredTestimonials(data);
   };
 
   const toggleStatus = async (id, status) => {
     const result = await Swal.fire({
       title: "Are you sure?",
       text: `You want to ${status ? "deactivate" : "activate"
-        } this category?`,
+        } this testimonial?`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -60,11 +60,11 @@ export default function TestimonialTable({
     if (!result.isConfirmed) return;
 
     try {
-      await axios.put(`/api/blog-categories/${id}`, {
+      await axios.put(`/api/testimonials/status/${id}`, {
         status: !status,
       });
 
-      toast.success("Category updated successfully");
+      toast.success("Testimonial updated successfully");
       fetchData();
     } catch (error) {
       console.log(error);
@@ -92,10 +92,10 @@ export default function TestimonialTable({
 
     try {
       await axios.delete(
-        `/api/blog-categories/${item._id}`
+        `/api/testimonials/${item._id}`
       );
 
-      toast.success("Category deleted successfully");
+      toast.success("Testimonial deleted successfully");
 
       fetchData();
     } catch (error) {
@@ -114,6 +114,20 @@ export default function TestimonialTable({
       name: "Name",
       selector: (row) => row.name,
       sortable: true,
+    },
+    {
+      name: "Image",
+      cell: (row) => (
+        <img
+          src={row.image}
+          alt={row.name}
+          style={{ width: "100px", height: "100px" }}
+        />
+      )
+    },
+    {
+      name: "Rating",
+      selector: (row) => row.rating,
     },
     {
       name: "Description",
@@ -169,7 +183,7 @@ export default function TestimonialTable({
 
       <DataTable
         columns={columns}
-        data={filteredCategories}
+        data={filteredTestimonials}
         pagination
         highlightOnHover
         responsive

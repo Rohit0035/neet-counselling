@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
     Container,
@@ -54,6 +54,20 @@ const testimonialData = [
 ];
 
 const TestimonialSlider = () => {
+
+    const [testimonials, setTestimonials] = useState([]);
+    
+        const fetchTestimonials = async () => {
+            const res = await fetch("/api/website/testimonials");
+            const data = await res.json();
+        
+            setTestimonials(data);
+          };
+        
+          useEffect(() => {
+            fetchTestimonials();
+          }, []);
+
     return (
         <section className="pb-5">
             <Container>
@@ -92,7 +106,7 @@ const TestimonialSlider = () => {
                             modules={[Navigation, Autoplay]}
                         >
 
-                            {testimonialData.map((item, index) => (
+                            {testimonials.map((item, index) => (
 
                                 <SwiperSlide key={index}>
                                     <Card
@@ -106,8 +120,8 @@ const TestimonialSlider = () => {
                                         <CardBody className="p-4">
                                             <div className="d-flex justify-content-between mb-4">
                                                 <div className="d-flex gap-1 text-warning">
-                                                    {[1, 2, 3, 4, 5].map((star) => (
-                                                        <FaStar key={star} />
+                                                    {[...Array(item.rating)].map((star, index) => (
+                                                        <FaStar key={index} />
                                                     ))}
                                                 </div>
                                                 <FaQuoteRight
@@ -123,7 +137,7 @@ const TestimonialSlider = () => {
                                                     lineHeight: "2",
                                                 }}
                                             >
-                                                {item.review}
+                                                {item.description}
                                             </p>
                                             <div
                                                 className="mt-4 p-3"
