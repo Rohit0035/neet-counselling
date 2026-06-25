@@ -135,7 +135,7 @@ const ForgotPassword = () => {
 
                   <Card className="border-0 h-100 rounded-4">
 
-                    <CardBody className="p-5 d-flex flex-column justify-content-between h-100">
+                    <CardBody className="p-5 d-flex flex-column  h-100">
 
                       <div>
                         <h2 className="fw-bold mb-2">
@@ -153,7 +153,7 @@ const ForgotPassword = () => {
                           alt="forgot-password"
                           width={250}
                           height={250}
-                          className="w-100"
+                          className="w-100 mt-4"
                         //   style={{ maxHeight: "230px" }}
                         />
                       </div>
