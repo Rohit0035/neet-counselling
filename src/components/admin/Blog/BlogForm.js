@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 
 import "react-quill-new/dist/quill.snow.css";
 import ReactQuill from "react-quill-new";
+import { useLoader } from "@/context/LoaderContext";
 
 const schema = z.object({
   category: z.string().min(1, "Category is required"),
@@ -32,6 +33,8 @@ export default function BlogCategoryForm({
   show,
   setShow,
 }) {
+    const { setLoading } = useLoader();
+  
   const [categories, setCategories] = useState([]);
   const [preview, setPreview] = useState(null);
 
@@ -55,10 +58,18 @@ export default function BlogCategoryForm({
   });
 
   const fetchCategories = async () => {
-    const res = await fetch("/api/blog-categories");
-    const data = await res.json();
-
-    setCategories(data);
+    try{
+      setLoading(true);
+      const res = await fetch("/api/blog-categories");
+      const data = await res.json();
+      
+      setCategories(data);
+    }catch(error){
+      console.log(error);
+      toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -121,7 +132,7 @@ export default function BlogCategoryForm({
 
   const onSubmit = async (data) => {
     try {
-      console.log(data);
+      setLoading(true);
       const formData = new FormData();
 
       formData.append("category", data.category);
@@ -171,6 +182,8 @@ export default function BlogCategoryForm({
         error?.response?.data?.message ||
         "Something went wrong"
       );
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -192,6 +205,7 @@ export default function BlogCategoryForm({
       formData.append("image", file);
 
       try {
+        setLoading(true);
         const response = await axios.post(
           "/api/upload",
           formData,
@@ -220,6 +234,8 @@ export default function BlogCategoryForm({
         console.error(error);
 
         toast.error("Image upload failed");
+      }finally {
+        setLoading(false);
       }
     };
   };

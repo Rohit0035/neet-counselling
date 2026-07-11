@@ -1,0 +1,22 @@
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease;
+}
+
+.submenu.open {
+  max-height: 500px; /* Make this larger than the expected content height */
+  opacity: 1;
+}
+
+.arrow {
+  display: inline-flex;
+  transition: transform 0.5s ease;
+}
+
+.arrow.rotate {
+  transform: rotate(180deg);
+}

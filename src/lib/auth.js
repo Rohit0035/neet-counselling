@@ -98,50 +98,50 @@ export const authOptions = {
 
         async jwt({ token, user, account }) {
 
-    await connectDB();
+            await connectDB();
 
-    // Credentials login
-    if (user) {
-        token.id = user.id;
-        token.role = user.role;
-    }
+            // Credentials login
+            if (user) {
+                token.id = user.id;
+                token.role = user.role;
+            }
 
-    // Google login first time
-    if (account?.provider === "google") {
+            // Google login first time
+            if (account?.provider === "google") {
 
-        let existingUser = await User.findOne({
-            email: token.email,
-        });
+                let existingUser = await User.findOne({
+                    email: token.email,
+                });
 
-        if (!existingUser) {
-            existingUser = await User.create({
-                name: token.name,
-                email: token.email,
-                image: token.picture,
-                role: "student",
-                provider: "google",
-            });
-        }
+                if (!existingUser) {
+                    existingUser = await User.create({
+                        name: token.name,
+                        email: token.email,
+                        image: token.picture,
+                        role: "student",
+                        provider: "google",
+                    });
+                }
 
-        token.id = existingUser._id.toString();
-        token.role = existingUser.role;
-    }
+                token.id = existingUser._id.toString();
+                token.role = existingUser.role;
+            }
 
-    // Always ensure role exists
-    if (!token.role && token.email) {
+            // Always ensure role exists
+            if (!token.role && token.email) {
 
-        const dbUser = await User.findOne({
-            email: token.email,
-        });
+                const dbUser = await User.findOne({
+                    email: token.email,
+                });
 
-        if (dbUser) {
-            token.id = dbUser._id.toString();
-            token.role = dbUser.role;
-        }
-    }
+                if (dbUser) {
+                    token.id = dbUser._id.toString();
+                    token.role = dbUser.role;
+                }
+            }
 
-    return token;
-},
+            return token;
+        },
 
         async session({ session, token }) {
 
@@ -155,6 +155,7 @@ export const authOptions = {
 
     session: {
         strategy: "jwt",
+        maxAge: 60 * 60, // 1 min
     },
 
     secret: process.env.NEXTAUTH_SECRET,

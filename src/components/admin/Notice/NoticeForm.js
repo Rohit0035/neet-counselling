@@ -13,6 +13,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import toast from "react-hot-toast";
+import { useLoader } from "@/context/LoaderContext";
 
 const schema = z.object({
   category: z.string().min(1, "Category is required"),
@@ -28,6 +29,8 @@ export default function NoticeCategoryForm({
   show,
   setShow,
 }) {
+    const { setLoading } = useLoader();
+  
   const [categories, setCategories] = useState([]);
 
   const {
@@ -50,8 +53,8 @@ export default function NoticeCategoryForm({
   });
 
   const fetchCategories = async () => {
-    const res = await fetch("/api/notice-categories");
-    const data = await res.json();
+    const res = await axios.get("/api/notice-categories");
+    const data = await res.data;
 
     setCategories(data);
   };
@@ -91,7 +94,7 @@ export default function NoticeCategoryForm({
 
   const onSubmit = async (data) => {
     try {
-
+      setLoading(true);
       if (editData) {
         await axios.put(
           `/api/notices/${editData._id}`,
@@ -115,6 +118,8 @@ export default function NoticeCategoryForm({
         error?.response?.data?.message ||
         "Something went wrong"
       );
+    }finally {
+      setLoading(false);
     }
   };
 

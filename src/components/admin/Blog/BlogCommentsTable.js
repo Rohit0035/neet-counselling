@@ -6,6 +6,7 @@ import BlogCategoryForm from "./BlogCategoryForm";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import { useLoader } from "@/context/LoaderContext";
 
 export default function BlogCategoryTable({
   show,
@@ -13,6 +14,8 @@ export default function BlogCategoryTable({
   editData,
   setEditData,
 }) {
+    const { setLoading } = useLoader();
+  
   const [comments, setComments] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredComments, setFilteredComments] =
@@ -38,11 +41,19 @@ export default function BlogCategoryTable({
   }, [search, comments]);
 
   const fetchComments = async () => {
-    const res = await fetch("/api/blog-comments");
-    const data = await res.json();
-
-    setComments(data);
-    setFilteredComments(data);
+    try{
+      setLoading(true);
+      const res = await fetch("/api/blog-comments");
+      const data = await res.json();
+  
+      setComments(data);
+      setFilteredComments(data);
+    }catch(error){
+      console.log(error);
+      toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
+    }
   };
 
   const toggleStatus = async (id, isApproved) => {
@@ -60,6 +71,7 @@ export default function BlogCategoryTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.put(`/api/blog-comments/${id}`, {
         isApproved: !isApproved,
       });
@@ -69,6 +81,8 @@ export default function BlogCategoryTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -91,6 +105,7 @@ export default function BlogCategoryTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.delete(
         `/api/blog-comments/${item._id}`
       );
@@ -101,6 +116,8 @@ export default function BlogCategoryTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 

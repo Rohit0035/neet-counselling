@@ -6,6 +6,7 @@ import PackageForm from "./PackageForm";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import { useLoader } from "@/context/LoaderContext";
 
 export default function StudentPackageTable({
   show,
@@ -13,6 +14,8 @@ export default function StudentPackageTable({
   editData,
   setEditData,
 }) {
+    const { setLoading } = useLoader();
+  
   const [packages, setPackages] = useState([]);
   const [filteredPackages, setFilteredPackages] =
     useState([]);
@@ -38,11 +41,19 @@ export default function StudentPackageTable({
   }, [search, packages]);
 
   const fetchData = async () => {
-    const res = await fetch("/api/student-packages");
-    const data = await res.json();
-
-    setPackages(data);
-    setFilteredPackages(data);
+    try {
+      setLoading(true);
+      const res = await axios.get("/api/student-packages");
+      const data = await res.data;
+  
+      setPackages(data);
+      setFilteredPackages(data);
+    }catch(error){
+      console.log(error);
+      toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
+    }
   };
 
   const toggleStatus = async (id, status) => {
@@ -60,6 +71,7 @@ export default function StudentPackageTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.put(`/api/student-packages/${id}`, {
         status: !status,
       });
@@ -69,6 +81,8 @@ export default function StudentPackageTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -91,6 +105,7 @@ export default function StudentPackageTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.delete(
         `/api/student-packages/${item._id}`
       );
@@ -101,6 +116,8 @@ export default function StudentPackageTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 

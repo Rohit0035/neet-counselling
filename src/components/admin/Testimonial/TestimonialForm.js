@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
+import { useLoader } from "@/context/LoaderContext";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -26,6 +27,7 @@ export default function TestimonialForm({
   show,
   setShow,
 }) {
+  const { setLoading } = useLoader();
 
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
@@ -93,6 +95,7 @@ export default function TestimonialForm({
 
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
       const formData = new FormData();
 
       formData.append("name", data.name);
@@ -143,6 +146,8 @@ export default function TestimonialForm({
         error?.response?.data?.message ||
         "Something went wrong"
       );
+    }finally {
+      setLoading(false);
     }
   };
 

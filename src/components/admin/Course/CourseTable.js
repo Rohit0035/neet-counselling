@@ -6,6 +6,7 @@ import CourseForm from "./CourseForm";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import { useLoader } from "@/context/LoaderContext";
 
 export default function CourseTable({
   show,
@@ -13,6 +14,8 @@ export default function CourseTable({
   editData,
   setEditData,
 }) {
+    const { setLoading } = useLoader();
+  
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] =
     useState([]);
@@ -38,11 +41,19 @@ export default function CourseTable({
   }, [search, courses]);
 
   const fetchData = async () => {
-    const res = await fetch("/api/courses");
-    const data = await res.json();
-
-    setCourses(data);
-    setFilteredCourses(data);
+    try{
+      setLoading(true);
+      const res = await axios.get("/api/courses");
+      const data = await res.data;
+  
+      setCourses(data);
+      setFilteredCourses(data);
+    }catch(error){
+      console.log(error);
+      toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
+    }
   };
 
   const toggleStatus = async (id, status) => {
@@ -60,6 +71,7 @@ export default function CourseTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.put(`/api/courses/${id}`, {
         status: !status,
       });
@@ -69,6 +81,8 @@ export default function CourseTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -91,6 +105,7 @@ export default function CourseTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.delete(
         `/api/courses/${item._id}`
       );
@@ -101,6 +116,8 @@ export default function CourseTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 

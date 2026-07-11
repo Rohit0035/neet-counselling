@@ -6,6 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import BlogForm from "./BlogForm";
 import Swal from "sweetalert2";
+import { useLoader } from "@/context/LoaderContext";
 
 export default function BlogsTable({
   show,
@@ -13,6 +14,8 @@ export default function BlogsTable({
   editData,
   setEditData,
 }) {
+    const { setLoading } = useLoader();
+  
   const [search, setSearch] = useState("");
   const [blogs, setBlogs] =
     useState([]);
@@ -39,32 +42,20 @@ export default function BlogsTable({
   }, [search, blogs]);
 
   const fetchBlogs = async () => {
-    const res = await fetch("/api/blogs");
-    const data = await res.json();
-
-    setBlogs(data);
-    setFilteredBlogs(data);
+    try{
+      setLoading(true);
+      const res = await axios.get("/api/blogs");
+      const data = await res.data;
+  
+      setBlogs(data);
+      setFilteredBlogs(data);
+    }catch(error){
+      console.log(error);
+      toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
+    }
   };
-
-  // const toggleStatus = async (id, status) => {
-  //   try {
-  //     const payload = { status: !status };
-
-  //     await axios.put(
-  //       `/api/blogs/status/${id}`,
-  //       payload
-  //     );
-
-  //     toast.success(
-  //       "Blog status updated successfully"
-  //     );
-
-  //     fetchBlogs();
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("Something went wrong");
-  //   }
-  // };
 
   const toggleStatus = async (id, status) => {
     const result = await Swal.fire({
@@ -81,6 +72,7 @@ export default function BlogsTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.put(`/api/blogs/status/${id}`, {
         status: !status,
       });
@@ -90,6 +82,8 @@ export default function BlogsTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -97,17 +91,6 @@ export default function BlogsTable({
     setEditData(item);
     setShow(true);
   };
-
-  // const handleDelete = async (item) => {
-  //   try {
-  //     await axios.delete(`/api/blogs/${item._id}`);
-  //     toast.success("Blog deleted successfully");
-  //     fetchBlogs();
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("Something went wrong");
-  //   }
-  // };
 
   const handleDelete = async (item) => {
     const result = await Swal.fire({
@@ -123,6 +106,7 @@ export default function BlogsTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.delete(
         `/api/blogs/${item._id}`
       );
@@ -133,6 +117,8 @@ export default function BlogsTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 

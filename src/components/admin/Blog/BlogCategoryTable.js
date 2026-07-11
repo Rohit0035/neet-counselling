@@ -6,6 +6,7 @@ import BlogCategoryForm from "./BlogCategoryForm";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import { useLoader } from "@/context/LoaderContext";
 
 export default function BlogCategoryTable({
   show,
@@ -13,6 +14,8 @@ export default function BlogCategoryTable({
   editData,
   setEditData,
 }) {
+    const { setLoading } = useLoader();
+  
   const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredCategories, setFilteredCategories] =
@@ -38,11 +41,19 @@ export default function BlogCategoryTable({
   }, [search, categories]);
 
   const fetchCategories = async () => {
-    const res = await fetch("/api/blog-categories");
-    const data = await res.json();
-
-    setCategories(data);
-    setFilteredCategories(data);
+    try{
+      setLoading(true);
+      const res = await fetch("/api/blog-categories");
+      const data = await res.json();
+  
+      setCategories(data);
+      setFilteredCategories(data);
+    }catch(error){
+      console.log(error);
+      toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
+    }
   };
 
   const toggleStatus = async (id, status) => {
@@ -60,6 +71,7 @@ export default function BlogCategoryTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.put(`/api/blog-categories/${id}`, {
         status: !status,
       });
@@ -69,6 +81,8 @@ export default function BlogCategoryTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -91,6 +105,7 @@ export default function BlogCategoryTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.delete(
         `/api/blog-categories/${item._id}`
       );
@@ -101,6 +116,8 @@ export default function BlogCategoryTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 

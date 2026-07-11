@@ -6,6 +6,7 @@ import TestimonialForm from "./TestimonialForm";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import { useLoader } from "@/context/LoaderContext";
 
 export default function TestimonialTable({
   show,
@@ -13,6 +14,8 @@ export default function TestimonialTable({
   editData,
   setEditData,
 }) {
+    const { setLoading } = useLoader();
+  
   const [testimonials, setTestimonials] = useState([]);
   const [filteredTestimonials, setFilteredTestimonials] =
   useState([]);
@@ -38,11 +41,19 @@ export default function TestimonialTable({
   }, [search, testimonials]);
 
   const fetchData = async () => {
-    const res = await fetch("/api/testimonials");
-    const data = await res.json();
-
-    setTestimonials(data);
-    setFilteredTestimonials(data);
+    try{
+      setLoading(true);
+      const res = await axios.get("/api/testimonials");
+      const data = await res.data;
+  
+      setTestimonials(data);
+      setFilteredTestimonials(data);
+    }catch(error){
+      console.log(error);
+      toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
+    }
   };
 
   const toggleStatus = async (id, status) => {
@@ -60,6 +71,7 @@ export default function TestimonialTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.put(`/api/testimonials/status/${id}`, {
         status: !status,
       });
@@ -69,6 +81,8 @@ export default function TestimonialTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -91,6 +105,7 @@ export default function TestimonialTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.delete(
         `/api/testimonials/${item._id}`
       );
@@ -101,6 +116,8 @@ export default function TestimonialTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 

@@ -28,8 +28,9 @@ import {
 
 import AOS from "aos";
 import "aos/dist/aos.css";
-
 import StudentLayoutWrapper from "../components/StudentLayout";
+
+
 
 const CoursesPage = () => {
     const courses = [

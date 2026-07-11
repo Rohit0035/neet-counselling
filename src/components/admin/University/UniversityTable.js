@@ -6,6 +6,7 @@ import UniversityForm from "./UniversityForm";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import { useLoader } from "@/context/LoaderContext";
 
 export default function UniversityTable({
   show,
@@ -13,6 +14,8 @@ export default function UniversityTable({
   editData,
   setEditData,
 }) {
+    const { setLoading } = useLoader();
+  
   const [universities, setUniversities] = useState([]);
   const [filteredUniversities, setFilteredUniversities] =
     useState([]);
@@ -38,11 +41,20 @@ export default function UniversityTable({
   }, [search, universities]);
 
   const fetchData = async () => {
-    const res = await fetch("/api/universities");
-    const data = await res.json();
-
-    setUniversities(data);
-    setFilteredUniversities(data);
+    try {
+      setLoading(true);
+      const res = await axios.get("/api/universities");
+      const data = await res.data;
+  
+      setUniversities(data);
+      setFilteredUniversities(data);
+    }catch(error){
+      console.log(error);
+      toast.error("Something went wrong");
+    }
+    finally{
+      setLoading(false);
+    }
   };
 
   const toggleStatus = async (id, status) => {
@@ -60,6 +72,7 @@ export default function UniversityTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.put(`/api/universities/${id}`, {
         status: !status,
       });
@@ -69,6 +82,9 @@ export default function UniversityTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }
+    finally{
+      setLoading(false);
     }
   };
 
@@ -91,6 +107,7 @@ export default function UniversityTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.delete(
         `/api/universities/${item._id}`
       );
@@ -101,6 +118,9 @@ export default function UniversityTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }
+    finally{
+      setLoading(false);
     }
   };
 

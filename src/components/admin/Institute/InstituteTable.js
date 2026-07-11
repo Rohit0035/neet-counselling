@@ -6,6 +6,7 @@ import InstituteForm from "./InstituteForm";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import { useLoader } from "@/context/LoaderContext";
 
 export default function InstituteTable({
   show,
@@ -13,6 +14,8 @@ export default function InstituteTable({
   editData,
   setEditData,
 }) {
+    const { setLoading } = useLoader();
+  
   const [institutes, setInstitutes] = useState([]);
   const [filteredInstitutes, setFilteredInstitutes] =
   useState([]);
@@ -38,11 +41,19 @@ export default function InstituteTable({
   }, [search, institutes]);
 
   const fetchData = async () => {
-    const res = await fetch("/api/institutes");
-    const data = await res.json();
-
-    setInstitutes(data);
-    setFilteredInstitutes(data);
+    try{
+      setLoading(true);
+      const res = await axios.get("/api/institutes");
+      const data = await res.data;
+  
+      setInstitutes(data);
+      setFilteredInstitutes(data);
+    }catch(error){
+      console.log(error);
+      toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
+    }
   };
 
   const toggleStatus = async (id, status) => {
@@ -60,6 +71,7 @@ export default function InstituteTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.put(`/api/institutes/status/${id}`, {
         status: !status,
       });
@@ -69,6 +81,8 @@ export default function InstituteTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -91,6 +105,7 @@ export default function InstituteTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.delete(
         `/api/institutes/${item._id}`
       );
@@ -101,6 +116,8 @@ export default function InstituteTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 

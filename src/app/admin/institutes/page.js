@@ -3,29 +3,34 @@ import InstituteTable from "@/components/admin/Institute/InstituteTable";
 import { useState } from "react";
 
 export default function InstitutesPage() {
-  const [editData, setEditData] = useState(null);
-  const [show, setShow] = useState(false);
+	const [editData, setEditData] = useState(null);
+	const [show, setShow] = useState(false);
 
-  return (
-    <div>
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Institutes</h2>
+	return (
+		<div className="container-fluid py-3">
+			<div className="card shadow-lg border-0">
+				<div className="card-header bg-white d-flex justify-content-between align-items-center">
+					<h4 className="mb-0">Institutes</h4>
 
-        <button
-          className="btn btn-primary"
-          onClick={() => setShow(true)}
-        >
-          Add Institute
-        </button>
-      </div>
+					<button
+						className="btn btn-primary"
+						onClick={() => setShow(true)}
+					>
+						<i className="bi bi-plus-lg me-2"></i>
+						Add New
+					</button>
+				</div>
 
-      <InstituteTable
-        show={show}
-        setShow={setShow}
-        editData={editData}
-        setEditData={setEditData}
-        fetchData={() => {}}
-      />
-    </div>
-  );
+				<div className="card-body">
+					<InstituteTable
+						show={show}
+						setShow={setShow}
+						editData={editData}
+						setEditData={setEditData}
+						fetchData={() => { }}
+					/>
+				</div>
+			</div>
+		</div>
+	);
 }

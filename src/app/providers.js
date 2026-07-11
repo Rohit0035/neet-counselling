@@ -1,13 +1,14 @@
-// app/providers.js
-
 "use client";
 
 import { SessionProvider } from "next-auth/react";
+import { LoaderProvider } from "@/context/LoaderContext";
 
 export default function Providers({ children }) {
   return (
     <SessionProvider>
-      {children}
+      <LoaderProvider>
+        {children}
+      </LoaderProvider>
     </SessionProvider>
   );
 }

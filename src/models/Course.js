@@ -5,8 +5,10 @@ import MongooseDelete from "mongoose-delete";
 
 const CourseSchema = new mongoose.Schema(
   {
-    zynerdId: Number,
-
+     exam: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -19,6 +21,13 @@ const CourseSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+    courseType: String,
+    degreeType: String,
+    degreeTerm: String,
+    fundingType: String,
+    subExam: String,
+    instructionMedium: String,
+    duration: String,
     status: {
       type: Boolean,
       default: true,

@@ -11,6 +11,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
+import { useLoader } from "@/context/LoaderContext";
 
 const schema = z
   .object({
@@ -50,6 +51,8 @@ export default function PackageForm({
   show,
   setShow,
 }) {
+    const { setLoading } = useLoader();
+  
   const {
     register,
     handleSubmit,

@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
+import { useLoader } from "@/context/LoaderContext";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -25,6 +26,8 @@ export default function NoticeCategoryForm({
   show,
   setShow,
 }) {
+    const { setLoading } = useLoader();
+  
   const {
     register,
     handleSubmit,
@@ -68,6 +71,7 @@ export default function NoticeCategoryForm({
 
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
       const payload = {
         ...data,
         slug: data.name.toLowerCase().replaceAll(" ", "-"),
@@ -101,6 +105,8 @@ export default function NoticeCategoryForm({
         error?.response?.data?.message ||
         "Something went wrong"
       );
+    }finally {
+      setLoading(false);
     }
   };
 

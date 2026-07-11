@@ -5,6 +5,10 @@ import MongooseDelete from "mongoose-delete";
 
 const InstituteSchema = new mongoose.Schema(
   {
+     exam: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,

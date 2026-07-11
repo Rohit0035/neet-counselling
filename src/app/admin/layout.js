@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import AdminNavbar from "@/components/admin/AdminNavbar";
+import "@/assets/styles/admin-panel.css"
 
 export default function AdminLayout({ children }) {
   const router = useRouter();

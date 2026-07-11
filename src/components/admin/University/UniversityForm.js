@@ -11,6 +11,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
+import { universityTypes } from "@/lib/data";
+import { useLoader } from "@/context/LoaderContext";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -25,6 +27,8 @@ export default function UniversityForm({
   show,
   setShow,
 }) {
+    const { setLoading } = useLoader();
+  
   const {
     register,
     handleSubmit,
@@ -68,6 +72,7 @@ export default function UniversityForm({
 
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
       const payload = {
         ...data,
         slug: data.name.toLowerCase().replaceAll(" ", "-"),
@@ -101,6 +106,9 @@ export default function UniversityForm({
         error?.response?.data?.message ||
         "Something went wrong"
       );
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -139,19 +147,16 @@ export default function UniversityForm({
 
             <Form.Select {...register("type")}>
               <option value="">Select Type</option>
-              <option value="Central University">Central University</option>
-              <option value="State University">State University</option>
-              <option value="Private University">Private University</option>
-              <option value="Deemed University">Deemed University</option>
-              <option value="Open University">Open University</option>
-              <option value="Research University">Research University</option>
-              <option value="Technical University">Technical University</option>
-              <option value="Medical University">Medical University</option>
-              <option value="Agricultural University">Agricultural University</option>
-              <option value="Law University">Law University</option>
-              <option value="Arts University">Arts University</option>
-              <option value="Autonomous University">Autonomous University</option>
-              <option value="Public University">Public University</option>
+              {
+                universityTypes.map((type) => (
+                  <option
+                    key={type}
+                    value={type}
+                  >
+                    {type}
+                  </option>
+                ))
+              }
             </Form.Select>
 
             {errors.type && (

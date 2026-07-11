@@ -6,6 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import BlogForm from "./NoticeForm";
 import Swal from "sweetalert2";
+import { useLoader } from "@/context/LoaderContext";
 
 export default function NoticesTable({
   show,
@@ -13,6 +14,8 @@ export default function NoticesTable({
   editData,
   setEditData,
 }) {
+    const { setLoading } = useLoader();
+  
   const [search, setSearch] = useState("");
   const [notices, setNotices] =
     useState([]);
@@ -39,11 +42,19 @@ export default function NoticesTable({
   }, [search, notices]);
 
   const fetchNotices = async () => {
-    const res = await fetch("/api/notices");
-    const data = await res.json();
-
-    setNotices(data);
-    setFilteredNotices(data);
+    try{
+      setLoading(true);
+      const res = await axios.get("/api/notices");
+      const data = await res.data;
+  
+      setNotices(data);
+      setFilteredNotices(data);
+    }catch(error){
+      console.log(error);
+      toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
+    }
   };
 
   const toggleStatus = async (id, status) => {
@@ -61,6 +72,7 @@ export default function NoticesTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.put(`/api/notices/status/${id}`, {
         status: !status,
       });
@@ -70,6 +82,8 @@ export default function NoticesTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -92,6 +106,7 @@ export default function NoticesTable({
     if (!result.isConfirmed) return;
 
     try {
+      setLoading(true);
       await axios.delete(
         `/api/notices/${item._id}`
       );
@@ -102,6 +117,8 @@ export default function NoticesTable({
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 

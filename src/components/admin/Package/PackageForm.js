@@ -11,6 +11,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
+import { useLoader } from "@/context/LoaderContext";
 
 const schema = z
   .object({
@@ -50,6 +51,8 @@ export default function PackageForm({
   show,
   setShow,
 }) {
+    const { setLoading } = useLoader();
+  
   const {
     register,
     handleSubmit,
@@ -159,6 +162,7 @@ export default function PackageForm({
 
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
       const payload = {
         ...data,
         features: data.features.map(item => item.value),
@@ -193,6 +197,8 @@ export default function PackageForm({
         error?.response?.data?.message ||
         "Something went wrong"
       );
+    }finally {
+      setLoading(false);
     }
   };
 
