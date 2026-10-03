@@ -55,14 +55,14 @@ const AllotmentDetailsModal = ({
             />
           </Col>
           <Col md="9">
-            <h2 className="fw-bold mb-2">
+            <h3 className="fw-bold mb-2">
               {data.institute}
-            </h2>
+            </h3>
             <div className="d-flex align-items-center gap-2 text-muted">
               <FiMapPin />
               <span>
                 Location:
-                <span className="text-danger fw-semibold ms-1">
+                <span className="text-primary fw-semibold ms-1">
                   {data.state}
                 </span>
               </span>
@@ -71,7 +71,7 @@ const AllotmentDetailsModal = ({
           <Col md="2" className="text-end">
             <Badge
               color="light"
-              className="border border-danger text-danger fs-6 p-2"
+              className="border border-danger text-primary fs-6 p-2"
             >
               Round {data.round} / Jul-2026
             </Badge>
@@ -84,7 +84,7 @@ const AllotmentDetailsModal = ({
                 <div className="bg-light rounded p-3">
                   <FiBookOpen
                     size={22}
-                    className="text-danger"
+                    className="text-primary"
                   />
                 </div>
                 <div>
@@ -105,7 +105,7 @@ const AllotmentDetailsModal = ({
                 <div className="bg-light rounded p-3">
                   <MdOutlineAccountBalance
                     size={22}
-                    className="text-danger"
+                    className="text-primary"
                   />
                 </div>
 
@@ -126,7 +126,7 @@ const AllotmentDetailsModal = ({
                 <div className="bg-light rounded p-3">
                   <MdOutlineCategory
                     size={22}
-                    className="text-danger"
+                    className="text-primary"
                   />
                 </div>
                 <div>

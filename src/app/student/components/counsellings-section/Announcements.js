@@ -22,7 +22,7 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
-const DashAnnouncements = () => {
+const Announcements = () => {
     useEffect(() => {
         AOS.init({
             duration: 800,
@@ -100,22 +100,12 @@ const DashAnnouncements = () => {
     return (
         <section className="py-3 mt-4 bg-white">
             <Container>
-                <div className="text-start mb-3">
-                    <h4 className="fw-bold mb-2">
-                        Get Timely Updates
-                    </h4>
-                    <p className="text-secondary mb-0 mt-">
-                        Stay updated with counselling schedules,
-                        registrations, seat allotments and important
-                        NEET announcements.
-                    </p>
-                </div>
                 <div className="bg-white p-3 mb-3">
                     <Row>
                         <Col md="6" className="mb-2">
-                            <h5 className="fw-bold mb-0">
+                            <h6 className="fw-bold mb-0">
                                 Announcements
-                            </h5>
+                            </h6>
                         </Col>
                         <Col md="6">
                             <div className="d-flex justify-content-end">
@@ -127,13 +117,7 @@ const DashAnnouncements = () => {
                                     <option>Verification</option>
                                 </Input>
 
-                                <Button
-                                    href="/student/announcements-events"
-                                    color="primary"
-                                    className="fw-semibold btn-sm st-bg btn-sm"
-                                >
-                                    View All
-                                </Button>
+                               
                             </div>
                         </Col>
                     </Row>
@@ -214,4 +198,4 @@ const DashAnnouncements = () => {
     );
 };
 
-export default DashAnnouncements;
+export default Announcements;

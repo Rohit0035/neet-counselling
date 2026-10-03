@@ -16,10 +16,13 @@ import { FcPackage, FcRating } from "react-icons/fc";
 import FeedbackModal from "./FeedbackModal";
 import { MdDevices } from "react-icons/md";
 import { FaBookBookmark } from "react-icons/fa6";
+import ExamDropdown from "@/app/student/components/ExamDropdown"
 
 const StudentHeader = ({ setSidebarOpen }) => {
 
   const [feedbackModal, setFeedbackModal] = useState(false);
+  const [exam,setExam] = useState("NEET SS");
+
 
   return (
     <header className="sp-header position-relative">
@@ -31,8 +34,10 @@ const StudentHeader = ({ setSidebarOpen }) => {
         >
           <FiMenu size={22} />
         </Button>
-
-        <h5 className="mb-0">Student Panel</h5>
+        <ExamDropdown
+          value="NEET SS"
+          onChange={(value)=>setExam(value)}
+        />
       </div>
 
       <div className="sp-header-right d-flex">

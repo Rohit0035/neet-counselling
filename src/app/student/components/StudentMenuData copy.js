@@ -1,113 +1,117 @@
+import { FaCog } from "react-icons/fa";
 import {
-  FaHouse,
-  FaVideo,
-  FaDatabase,
-  FaCodeBranch,
-  FaChartBar,
-  FaHardDrive,
-  FaFeather,
-  FaCompass,
-  FaBookOpen,
-  FaFileLines,
-  FaDollarSign,
-  FaGear,
-} from "react-icons/fa6";
+  FiHome,
+  FiVideo,
+  FiDatabase,
+  FiGitBranch,
+  FiBarChart2,
+  FiCompass,
+  FiBookOpen,
+  FiFileText,
+  FiUser,
+  FiAward,
+  FiSettings,
+  FiList,
+  FiDollarSign,
+  FiGrid,
+  FiFeather,
+} from "react-icons/fi";
 
 const StudentMenuData = [
   {
     title: "Dashboard",
-    icon: FaHouse,
+    icon: FiHome,
     link: "/student/dashboard",
   },
 
   {
     title: "Videos",
-    icon: FaVideo,
+    icon: FiVideo,
     link: "/student/videos",
   },
 
   {
     title: "My Choice List",
-    icon: FaBookOpen,
+    icon: FiList,
     link: "/student/choice-list",
   },
 
   {
     title: "Insights",
-    icon: FaDatabase,
+    icon: FiDatabase,
     children: [
       {
         title: "Allotments",
-        icon: FaCodeBranch,
+        icon: FiGitBranch,
         link: "/student/allotment",
       },
       {
         title: "Closing Ranks",
-        icon: FaChartBar,
+        icon: FiBarChart2,
         link: "/student/cosingranking",
       },
       {
         title: "Seat Matrix",
-        icon: FaHardDrive,
+        icon: FiGrid,
         link: "/student/seat-matrix",
       },
       {
         title: "Fee, Stipend and Bond",
-        icon: FaFeather,
+        icon: FiFeather,
+        link: "/student/feestipendbond",
+      },
+    ],
+  },
+  {
+    title: "Insights",
+    icon: FiDatabase,
+    children: [
+      {
+        title: "Allotments",
+        icon: FiGitBranch,
+        link: "/student/allotment",
+      },
+      {
+        title: "Closing Ranks",
+        icon: FiBarChart2,
+        link: "/student/cosingranking",
+      },
+      {
+        title: "Seat Matrix",
+        icon: FiGrid,
+        link: "/student/seat-matrix",
+      },
+      {
+        title: "Fee, Stipend and Bond",
+        icon: FiFeather,
         link: "/student/feestipendbond",
       },
     ],
   },
 
-  {
-    title: "Explore",
-    icon: FaCompass,
-    children: [
-      {
-        title: "Institutes",
-        icon: FaHouse,
-        link: "/student/institutes",
-      },
-      {
-        title: "Universities",
-        icon: FaHouse,
-        link: "/student/universities",
-      },
-      {
-        title: "Counsellings",
-        icon: FaHouse,
-        link: "/student/counsellings",
-      },
-      {
-        title: "Courses",
-        icon: FaBookOpen,
-        link: "/student/courses",
-      },
-    ],
-  },
 
   {
     title: "Tools",
-    icon: FaGear,
+    icon: FaCog,
     children: [
       {
         title: "Allotment Mapping",
-        icon: FaCodeBranch,
+        icon: FiHome,
         link: "/student/allotment-mapping",
       },
       {
         title: "Rank Scan",
-        icon: FaChartBar,
-        link: "/student/rank-scan",
+        icon: FiHome,
+        link: "/student/universities",
       },
       {
         title: "Seat Increase",
-        icon: FaHardDrive,
-        link: "/student/seat-increase",
+        icon: FiBookOpen,
+        link: "/student/courses",
       },
       {
         title: "Merit List",
-        icon: FaBookOpen,
+        icon: FiBookOpen,
         link: "/student/merit-list",
       },
     ],
@@ -115,15 +119,17 @@ const StudentMenuData = [
 
   {
     title: "Get a Package",
-    icon: FaDollarSign,
+    icon: FiDollarSign,
     link: "/student/packages",
   },
 
   {
     title: "Resources",
-    icon: FaFileLines,
+    icon: FiFileText,
     link: "/student/resources",
   },
+
+
 ];
 
 export default StudentMenuData;

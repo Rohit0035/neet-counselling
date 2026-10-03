@@ -13,7 +13,7 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
-const DashEvents = () => {
+const EventList = () => {
   useEffect(() => {
     AOS.init({
       duration: 700,
@@ -121,21 +121,12 @@ const DashEvents = () => {
   }
 
   return (
-    <section className="py-4 bg-white">
+    <section className="py-4 bg-white mt-3">
       <Container fluid>
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h4 className="fw-bold mb-0">
+          <h6 className="fw-bold mb-0">
             Events
-          </h4>
-
-          <Button
-            href="/student/announcements-events"
-            color="warning"
-            size="sm"
-            className="rounded-pill fw-semibold st-bg text-white"
-          >
-            View All
-          </Button>
+          </h6>
         </div>
 
         <div className="bg-light rounded-3 p-3 shadow-sm">
@@ -167,10 +158,11 @@ const DashEvents = () => {
                   {group.map((event, idx) => (
                     <div
                       key={idx}
-                      className={`${idx !== group.length - 1
+                      className={`${
+                        idx !== group.length - 1
                           ? "border-bottom pb-3 mb-3"
                           : ""
-                        }`}
+                      }`}
                     >
                       <span className="badge bg-light text-dark border fw-semibold">
                         {event.date}
@@ -210,4 +202,4 @@ const DashEvents = () => {
   );
 };
 
-export default DashEvents;
+export default EventList;

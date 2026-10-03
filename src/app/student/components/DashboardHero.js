@@ -2,9 +2,14 @@
 
 import Image from "next/image";
 import { Container, Row, Col, Button, Card, CardBody } from "reactstrap";
-import DashHeroImg from "../../../assets/images/dash-hero.png"
+import PlanCardDashboard from "@/app/student/components/PlanCardDashboard"
+
+
 
 const DashboardHero = () => {
+
+  // const [exam,setExam] = useState("NEET SS");
+
   return (
     <section className="bg-white py-3">
       <Container >
@@ -66,13 +71,9 @@ const DashboardHero = () => {
 
               <Col lg={6} className="mb-3">
                 <div className="position-relative text-center" data-aos="zoom-in">
-                  <Image
-                    src={DashHeroImg}
-                    alt="Medical Counselling"
-                    width={420}
-                    height={300}
-                    className="img-fluid"
-                  />
+                <PlanCardDashboard
+  // selectedExam={exam}
+/>
                 </div>
               </Col>
             </Row>

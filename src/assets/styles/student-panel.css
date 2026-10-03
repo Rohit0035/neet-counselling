@@ -259,6 +259,13 @@
     top: 44px !important;
 }
 
+.st-chlst1 button {
+    font-size: 14px !important;
+}
+.popover.show {
+    border: none !important;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
 
 @media (max-width: 991px) {
   .sp-menu-btn {
